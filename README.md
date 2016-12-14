@@ -1,1 +1,1 @@
-# External Modules for Semantic Pipes
+# Module definitions for S-Pipes
