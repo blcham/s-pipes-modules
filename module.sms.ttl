@@ -38,6 +38,16 @@ kbss-module:bind-rdf-content-hash
   rdfs:comment "Bind hash that is computed from input rdf data" ;
   rdfs:label "Bind rdf content hash" ;
 .
+kbss-module:construct-form-metadata
+  rdf:type sm:Module ;
+  rdfs:label "Construct form metadata" ;
+  spin:constraint [
+      rdf:type spl:Argument ;
+      spl:predicate sml:replace ;
+      spl:valueType xsd:boolean ;
+      rdfs:comment "Replace context flag" ;
+    ] ;
+.
 kbss-module:cli
   rdf:type sm:Module ;
   rdfs:label "Command-line" ;

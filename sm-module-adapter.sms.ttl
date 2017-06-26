@@ -22,6 +22,9 @@ kbss-module:import-e5x
 kbss-module:bind-rdf-content-hash
   rdfs:subClassOf sm:kbss-adapter-module ;
 .
+kbss-module:construct-form-metadata
+  rdfs:subClassOf sm:kbss-adapter-module ;
+.
 kbss-module:cli
   rdfs:subClassOf sm:kbss-adapter-module ;
 .
