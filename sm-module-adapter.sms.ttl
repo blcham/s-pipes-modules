@@ -54,6 +54,9 @@ kbss-module:su-time
 kbss-module:su-time-v2
   rdfs:subClassOf sm:kbss-adapter-module ;
 .
+kbss-module:sparql-endpoint-retrieve-graph
+  rdfs:subClassOf sm:kbss-adapter-module ;
+.
 kbss-module:tarql
   rdfs:subClassOf sm:kbss-adapter-module ;
 .

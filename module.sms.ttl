@@ -155,6 +155,28 @@ kbss-module:su-time-v2
   rdf:type sm:Module ;
   rdfs:label "SUTime v2" ;
 .
+kbss-module:sparql-endpoint-retrieve-graph
+  rdf:type sm:Module ;
+  rdfs:label "SpEP retrieve graph" ;
+  spin:constraint [
+      rdf:type spl:Argument ;
+      spl:optional "false"^^xsd:boolean ;
+      spl:predicate <http://onto.fel.cvut.cz/ontologies/lib/module/sparql-endpoint-retrieve-graph/endpoint-url>  ;
+      rdfs:comment "Endpoint url" ;
+    ] ;
+  spin:constraint [
+      rdf:type spl:Argument ;
+      spl:optional "false"^^xsd:boolean ;
+      spl:predicate <http://onto.fel.cvut.cz/ontologies/lib/module/sparql-endpoint-retrieve-graph/named-graph-uri>  ;
+      rdfs:comment "Named graph uri" ;
+    ] ;
+  spin:constraint [
+      rdf:type spl:Argument ;
+      spl:optional "true"^^xsd:boolean ;
+      spl:predicate <http://onto.fel.cvut.cz/ontologies/lib/module/sparql-endpoint-retrieve-graph/page-size>  ;
+      rdfs:comment "Page size" ;
+    ] ;
+.
 kbss-module:tarql
   rdf:type sm:Module ;
   spin:constraint [
