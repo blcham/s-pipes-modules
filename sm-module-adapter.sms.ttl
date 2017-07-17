@@ -51,6 +51,9 @@ kbss-module:kbss-modules
 kbss-module:su-time
   rdfs:subClassOf sm:kbss-adapter-module ;
 .
+kbss-module:su-time-v2
+  rdfs:subClassOf sm:kbss-adapter-module ;
+.
 kbss-module:tarql
   rdfs:subClassOf sm:kbss-adapter-module ;
 .

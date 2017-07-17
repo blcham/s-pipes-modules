@@ -15,6 +15,7 @@
 @prefix spin: <http://spinrdf.org/spin#> .
 @prefix spl: <http://spinrdf.org/spl#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix sml: <http://topbraid.org/sparqlmotionlib#> .
 
 <http://onto.fel.cvut.cz/ontologies/lib/module>
   rdf:type owl:Ontology ;
@@ -149,6 +150,10 @@ km-sesame:p-sesame-server-url
 kbss-module:su-time
   rdf:type sm:Module ;
   rdfs:label "SUTime " ;
+.
+kbss-module:su-time-v2
+  rdf:type sm:Module ;
+  rdfs:label "SUTime v2" ;
 .
 kbss-module:tarql
   rdf:type sm:Module ;
