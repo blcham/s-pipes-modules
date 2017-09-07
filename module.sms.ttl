@@ -24,6 +24,21 @@
   owl:imports <http://topbraid.org/sparqlmotionlib-core> ;
   owl:versionInfo "Created with TopBraid Composer" ;
 .
+
+kbss-module:is-parse-text
+  rdf:type rdf:Property ;
+  rdfs:comment "Specifies whether a module shall use some parameter values from its RDF representation or from its textual value." ;
+  rdfs:label "parse text"^^xsd:string ;
+  rdfs:range xsd:boolean ;
+.
+
+kbss-module:has-max-iteration-count 
+  rdf:type rdf:Property ;
+  rdfs:comment "Specifies what is maximum number of iterations of certain algorithm." ;
+  rdfs:label "maximum number of iterations"^^xsd:string ;
+  rdfs:range xsd:integer ;
+.
+
 km-param:has-resource-uri
   rdf:type rdf:Property ;
   rdfs:label "has resource uri" ;
@@ -174,9 +189,11 @@ kbss-module:sparql-endpoint-retrieve-graph
       rdf:type spl:Argument ;
       spl:optional "true"^^xsd:boolean ;
       spl:predicate <http://onto.fel.cvut.cz/ontologies/lib/module/sparql-endpoint-retrieve-graph/page-size>  ;
+      spl:valueType xsd:integer ;
       rdfs:comment "Page size" ;
     ] ;
 .
+
 kbss-module:tarql
   rdf:type sm:Module ;
   spin:constraint [
@@ -198,6 +215,41 @@ kbss-module:tarql
     ] ;
   rdfs:comment "Runs one or more TARQL Construct queries on the input triples. The output RDF will consist of the constructed triples and (unless sml:replace is true) the input triples." ;
   rdfs:label "TARQL" ;
+.
+kbss-module:apply-contruct-with-scrollable-cursor
+  rdf:type sm:Module ;
+  spin:constraint [
+      rdf:type spl:Argument ;
+      spl:optional "true"^^xsd:boolean ;
+      spl:predicate <http://topbraid.org/sparqlmotionlib#replace> ;
+      rdfs:comment "If set to true, the output triples will only contain the constructed triples. If no values or false are specified, the output will be the union of the input triples and the constructed triples." ;
+    ] ;
+  spin:constraint [
+      rdf:type spl:Attribute ;
+      spl:minCount 1 ;
+      spl:predicate <http://topbraid.org/sparqlmotionlib#constructQuery> ;
+      rdfs:comment "The construct queries with unbound variables ?offset and ?limit that deliver the triples that shall be added." ;
+    ] ;
+  spin:constraint [
+      rdf:type spl:Argument ;
+      spl:optional "true"^^xsd:boolean ;
+      spl:predicate <http://onto.fel.cvut.cz/ontologies/lib/module/apply-contruct-with-scrollable-cursor/page-size>  ;
+      rdfs:comment "Page size" ;
+    ] ;
+  spin:constraint [
+      rdf:type spl:Argument ;
+      spl:optional "true"^^xsd:boolean ;
+      spl:predicate kbss-module:is-parse-text ;
+      rdfs:comment "If set to true, the queries are parsed rather from textual representation than spin-representation." ;
+    ] ;
+  spin:constraint [
+      rdf:type spl:Argument ;
+      spl:optional "true"^^xsd:boolean ;
+      spl:predicate kbss-module:has-max-iteration-count ;
+      rdfs:comment "Maximal number of iterations of the whole rule set. The actual number of iterations can be smaller, if no new inferences are generated any more. Cases: a) iterationCount = 0 means none of the rules will be executed,  b) iterationCount = 1 means the whole rule set is executed only once, c) iterationCount > 1 means the whole rule set is executed at most 'iterationCount' times. In each iteration, queries are evaluated on the model merged from the default model and the result of previous iteration. Within each iteration, all queries are evaluated on the same model." ;
+    ] ;
+  rdfs:comment "Runs one or more construct queries on the input triples. Queries are executed multiple times with scrollable cursor that is defined in queries by sparql constructs 'LIMIT ?limit' and 'OFFSET ?offset'. The output RDF will consist of the constructed triples and (unless sml:replace is true) the input triples." ;
+  rdfs:label "ApplyConstructWithScrollableCursor" ;
 .
 kbss-module:void
   rdf:type sm:Module ;

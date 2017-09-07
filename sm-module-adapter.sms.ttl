@@ -34,6 +34,10 @@ kbss-module:deploy
 kbss-module:form-generator
   rdfs:subClassOf sm:kbss-adapter-module ;
 .
+
+kbss-module:apply-contruct-with-scrollable-cursor
+  rdfs:subClassOf sm:kbss-adapter-module ;
+.
 kbss-module:kbss-modules
   spin:constraint [
       rdf:type spl:Argument ;
