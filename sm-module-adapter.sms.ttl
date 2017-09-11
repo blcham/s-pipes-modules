@@ -38,6 +38,10 @@ kbss-module:form-generator
 kbss-module:apply-contruct-with-scrollable-cursor
   rdfs:subClassOf sm:kbss-adapter-module ;
 .
+kbss-module:apply-contruct-with-chunked-values
+  rdfs:subClassOf sm:kbss-adapter-module ;
+.
+
 kbss-module:kbss-modules
   spin:constraint [
       rdf:type spl:Argument ;
