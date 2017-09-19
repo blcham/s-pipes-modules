@@ -15,17 +15,19 @@
 @prefix spl: <http://spinrdf.org/spl#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-
-kbss-module:import-e5x
-  rdfs:subClassOf sm:inbas-adapter-module ;
+kbss-module:apply-contruct-with-chunked-values
+  rdfs:subClassOf sm:kbss-adapter-module ;
+.
+kbss-module:apply-contruct-with-scrollable-cursor
+  rdfs:subClassOf sm:kbss-adapter-module ;
 .
 kbss-module:bind-rdf-content-hash
   rdfs:subClassOf sm:kbss-adapter-module ;
 .
-kbss-module:construct-form-metadata
+kbss-module:cli
   rdfs:subClassOf sm:kbss-adapter-module ;
 .
-kbss-module:cli
+kbss-module:construct-form-metadata
   rdfs:subClassOf sm:kbss-adapter-module ;
 .
 kbss-module:deploy
@@ -34,14 +36,9 @@ kbss-module:deploy
 kbss-module:form-generator
   rdfs:subClassOf sm:kbss-adapter-module ;
 .
-
-kbss-module:apply-contruct-with-scrollable-cursor
-  rdfs:subClassOf sm:kbss-adapter-module ;
+kbss-module:import-e5x
+  rdfs:subClassOf sm:inbas-adapter-module ;
 .
-kbss-module:apply-contruct-with-chunked-values
-  rdfs:subClassOf sm:kbss-adapter-module ;
-.
-
 kbss-module:kbss-modules
   spin:constraint [
       rdf:type spl:Argument ;
@@ -56,13 +53,13 @@ kbss-module:kbss-modules
       rdfs:comment "Condition on output graph of this module."^^xsd:string ;
     ] ;
 .
+kbss-module:sparql-endpoint-retrieve-graph
+  rdfs:subClassOf sm:kbss-adapter-module ;
+.
 kbss-module:su-time
   rdfs:subClassOf sm:kbss-adapter-module ;
 .
 kbss-module:su-time-v2
-  rdfs:subClassOf sm:kbss-adapter-module ;
-.
-kbss-module:sparql-endpoint-retrieve-graph
   rdfs:subClassOf sm:kbss-adapter-module ;
 .
 kbss-module:tarql
@@ -107,13 +104,13 @@ sm:Modules
       rdfs:comment "Indicates whether this module should be executed as target module in debug environment."^^xsd:string ;
     ] ;
 .
-sm:kbss-adapter-module
-  rdf:type sm:Module ;
-  rdfs:label "KBSS adapter module"^^xsd:string ;
-  rdfs:subClassOf kbss-module:generic-kbss-modules ;
-.
 sm:inbas-adapter-module
   rdf:type sm:Module ;
   rdfs:label "INBAS adapter module"^^xsd:string ;
   rdfs:subClassOf kbss-module:inbas-modules ;
+.
+sm:kbss-adapter-module
+  rdf:type sm:Module ;
+  rdfs:label "KBSS adapter module"^^xsd:string ;
+  rdfs:subClassOf kbss-module:generic-kbss-modules ;
 .
