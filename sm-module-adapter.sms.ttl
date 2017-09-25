@@ -21,6 +21,9 @@ kbss-module:apply-contruct-with-chunked-values
 kbss-module:apply-contruct-with-scrollable-cursor
   rdfs:subClassOf sm:kbss-adapter-module ;
 .
+kbss-module:improve-spo-with-marginals
+  rdfs:subClassOf sm:kbss-adapter-module ;
+.
 kbss-module:bind-rdf-content-hash
   rdfs:subClassOf sm:kbss-adapter-module ;
 .

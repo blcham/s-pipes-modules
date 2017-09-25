@@ -71,6 +71,29 @@ kbss-module:apply-contruct-with-chunked-values
   rdfs:comment "Runs one or more construct queries on the input triples. Queries are executed multiple times with inserted values clause wihin the queries. The values clause is marked by #${VALUES} marker. It is substituted by output of provided select query and specified chunk size which defines how many rows of the select query will be substituted for the marker." ;
   rdfs:label "Apply construct with chunked values" ;
 .
+kbss-module:improve-spo-with-marginals
+  rdf:type sm:Module ;
+  spin:constraint [
+      rdf:type spl:Argument ;
+      spl:optional "false"^^xsd:string ;
+      spl:predicate <http://onto.fel.cvut.cz/ontologies/lib/module/improve-spo-with-marginals/marginals-defs-file-url> ;
+      rdfs:comment "Marginal definitions file url" ;
+    ] ;
+  spin:constraint [
+      rdf:type spl:Argument ;
+      spl:optional "false"^^xsd:string ;
+      spl:predicate <http://onto.fel.cvut.cz/ontologies/lib/module/improve-spo-with-marginals/data-service-url> ;
+      rdfs:comment "Data service url" ;
+    ] ;
+  spin:constraint [
+      rdf:type spl:Argument ;
+      spl:optional "true"^^xsd:string ;
+      spl:predicate <http://onto.fel.cvut.cz/ontologies/lib/module/improve-spo-with-marginals/marginal-constraint> ;
+      rdfs:comment "Marginal constraint" ;
+    ] ;
+  rdfs:comment "Constructs improved spo with marginals." ;
+  rdfs:label "Improve spo summary with marginals" ;
+.
 kbss-module:apply-contruct-with-scrollable-cursor
   rdf:type sm:Module ;
   spin:constraint [
