@@ -91,7 +91,7 @@ kbss-module:improve-spo-with-marginals
       spl:predicate <http://onto.fel.cvut.cz/ontologies/lib/module/improve-spo-with-marginals/marginal-constraint> ;
       rdfs:comment "Marginal constraint" ;
     ] ;
-  rdfs:comment "Constructs improved spo with marginals." ;
+  rdfs:comment "Constructs improved spo-summary descriptor with knowledge of provided marginals of weakly described resources. This module expects as an input graph computed spo-summary patterns (or possibly whole spo-summary descriptor) compliant with data provided in ?data-service-url. Within the input graph it identifies 'breakable patterns', i.e. spo-summary patterns that can be improved with knowledge of marginals computed in ?marginals-defs-file-url. The output of the module is a spo-summary descriptor that  contains original spo-summary patterns whenever possible and new spo-summary patterns that were created with additional knowledge of marginals." ;
   rdfs:label "Improve spo summary with marginals" ;
 .
 kbss-module:apply-contruct-with-scrollable-cursor
@@ -100,6 +100,7 @@ kbss-module:apply-contruct-with-scrollable-cursor
       rdf:type spl:Argument ;
       spl:optional "true"^^xsd:boolean ;
       spl:predicate <http://onto.fel.cvut.cz/ontologies/lib/module/apply-contruct-with-scrollable-cursor/page-size> ;
+      spl:valueType xsd:integer ;
       rdfs:comment "Page size" ;
     ] ;
   spin:constraint [
@@ -283,13 +284,10 @@ kbss-module:sparql-endpoint-retrieve-graph
     ] ;
   rdfs:label "SpEP retrieve graph" ;
 .
-kbss-module:su-time
+kbss-module:temporal-v1
   rdf:type sm:Module ;
-  rdfs:label "SUTime " ;
-.
-kbss-module:su-time-v2
-  rdf:type sm:Module ;
-  rdfs:label "SUTime v2" ;
+  rdfs:label "Temporal v1" ;
+  rdfs:comment "Module annotates input triples using NLP analysis of time using library SUTime." ;
 .
 kbss-module:tarql
   rdf:type sm:Module ;
