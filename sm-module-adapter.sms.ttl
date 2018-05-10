@@ -15,10 +15,13 @@
 @prefix spl: <http://spinrdf.org/spl#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-kbss-module:apply-contruct-with-chunked-values
+kbss-module:apply-construct-with-chunked-values
   rdfs:subClassOf sm:kbss-adapter-module ;
 .
-kbss-module:apply-contruct-with-scrollable-cursor
+kbss-module:apply-construct-with-scrollable-cursor
+  rdfs:subClassOf sm:kbss-adapter-module ;
+.
+kbss-module:apply-construct-with-chunked-values-and-scrollable-cursor
   rdfs:subClassOf sm:kbss-adapter-module ;
 .
 kbss-module:improve-spo-with-marginals
