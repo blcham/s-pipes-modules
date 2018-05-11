@@ -117,3 +117,17 @@ sm:kbss-adapter-module
   rdfs:label "KBSS adapter module"^^xsd:string ;
   rdfs:subClassOf kbss-module:generic-kbss-modules ;
 .
+
+
+sml:ApplyConstruct
+  sm:icon "wrench" ;
+.
+sml:BindWithConstant
+  sm:icon "bold" ;
+.
+sml:Merge
+  sm:icon "code-branch" ;
+.
+sml:ReturnRDF
+  sm:icon "sign-out-alt" ;
+.
