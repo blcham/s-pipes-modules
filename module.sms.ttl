@@ -83,6 +83,13 @@ kbss-module:apply-construct-with-chunked-values-and-scrollable-cursor
   spin:constraint [
       rdf:type spl:Argument ;
       spl:optional "true"^^xsd:boolean ;
+      spl:predicate <http://onto.fel.cvut.cz/ontologies/lib/module/apply-construct-with-chunked-values-and-scrollable-cursor/page-size> ;
+      spl:valueType xsd:integer ;
+      rdfs:comment "Page size for the scrollable cursor" ;
+    ] ;
+  spin:constraint [
+      rdf:type spl:Argument ;
+      spl:optional "true"^^xsd:boolean ;
       spl:predicate kbss-module:has-max-iteration-count ;
       rdfs:comment "Maximal number of iterations of the whole rule set. The actual number of iterations can be smaller, if no new inferences are generated any more. Cases: a) iterationCount = 0 means none of the rules will be executed,  b) iterationCount = 1 means the whole rule set is executed only once, c) iterationCount > 1 means the whole rule set is executed at most 'iterationCount' times. In each iteration, queries are evaluated on the model merged from the default model and the result of previous iteration. Within each iteration, all queries are evaluated on the same model." ;
     ] ;
@@ -110,13 +117,6 @@ kbss-module:apply-construct-with-chunked-values-and-scrollable-cursor
       spl:minCount 1 ;
       spl:predicate sml:constructQuery ;
       rdfs:comment "The construct queries with markers #${VALUES} and #${LIMIT_OFFSET}." ;
-    ] ;
-  spin:constraint [
-      rdf:type spl:Argument ;
-      spl:optional "true"^^xsd:boolean ;
-      spl:predicate <http://onto.fel.cvut.cz/ontologies/lib/module/apply-construct-with-scrollable-cursor/page-size> ;
-      spl:valueType xsd:integer ;
-      rdfs:comment "Page size for the scrollable cursor" ;
     ] ;
   sm:icon "wrench" ;
   rdfs:comment "Runs one or more construct queries on the input triples. Queries are executed multiple times with inserted values clause and limit+offset clauses wihin the queries. The values clause is marked by #${VALUES} marker, while limit+offset clauses are marked by #${LIMIT_OFFSET} marker. #${VALUES} marker is substituted by output of provided select query and specified chunk size which defines how many rows of the select query will be substituted for the marker. Each such query is executed multiple times with scrollable cursor, i.e. #{LIMIT_OFFSET} marker is substituted by by sparql constructs 'LIMIT ?limit' and 'OFFSET ?offset'. The output RDF will consist of the constructed triples and (unless sml:replace is true) the input triples." ;
