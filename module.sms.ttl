@@ -254,6 +254,7 @@ kbss-module:has-debug-mode-flag
 kbss-module:has-input-graph-constraint
   rdf:type rdf:Property ;
   rdfs:label "has input graph constraint" ;
+  rdfs:comment "Specifies constraint on merged input graph of the module. The constraint can be specified by ASK query which should return true if constraint is violated. If first line of the query is SPARQL comment, this comment is used to give user human readable description (e.g. within the log of s-pipes execution).";
   rdfs:subPropertyOf spin:query ;
 .
 kbss-module:has-max-iteration-count
@@ -265,6 +266,7 @@ kbss-module:has-max-iteration-count
 kbss-module:has-output-graph-constraint
   rdf:type rdf:Property ;
   rdfs:label "has output graph constraint" ;
+  rdfs:comment "Specifies constraint on returned output graph of the module. The constraint can be specified by ASK query which should return true if constraint is violated. If first line of the query is SPARQL comment, this comment is used to give user human readable description (e.g. within the log of s-pipes execution).";
   rdfs:subPropertyOf spin:query ;
 .
 kbss-module:has-target-module-flag
