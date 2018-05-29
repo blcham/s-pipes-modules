@@ -68,7 +68,6 @@ kbss-module:apply-construct-with-chunked-values
       spl:predicate sml:constructQuery ;
       rdfs:comment "The construct queries with marker #${VALUES}." ;
     ] ;
-  sm:icon "wrench" ;
   rdfs:comment "Runs one or more construct queries on the input triples. Queries are executed multiple times with inserted values clause wihin the queries. The values clause is marked by #${VALUES} marker. It is substituted by output of provided select query and specified chunk size which defines how many rows of the select query will be substituted for the marker." ;
   rdfs:label "Apply construct with chunked values" ;
 .
@@ -118,7 +117,6 @@ kbss-module:apply-construct-with-chunked-values-and-scrollable-cursor
       spl:predicate sml:constructQuery ;
       rdfs:comment "The construct queries with markers #${VALUES} and #${LIMIT_OFFSET}." ;
     ] ;
-  sm:icon "wrench" ;
   rdfs:comment "Runs one or more construct queries on the input triples. Queries are executed multiple times with inserted values clause and limit+offset clauses wihin the queries. The values clause is marked by #${VALUES} marker, while limit+offset clauses are marked by #${LIMIT_OFFSET} marker. #${VALUES} marker is substituted by output of provided select query and specified chunk size which defines how many rows of the select query will be substituted for the marker. Each such query is executed multiple times with scrollable cursor, i.e. #{LIMIT_OFFSET} marker is substituted by by sparql constructs 'LIMIT ?limit' and 'OFFSET ?offset'. The output RDF will consist of the constructed triples and (unless sml:replace is true) the input triples." ;
   rdfs:label "Apply construct with chunked values and scrollable cursor" ;
 .
@@ -178,7 +176,6 @@ kbss-module:apply-construct-with-scrollable-cursor
       spl:predicate sml:constructQuery ;
       rdfs:comment "The construct queries with marker #${LIMIT_OFFSET}." ;
     ] ;
-  sm:icon "wrench" ;
   rdfs:comment "Runs one or more construct queries on the input triples. Queries are executed multiple times with scrollable cursor that is defined in queries by sparql constructs 'LIMIT ?limit' and 'OFFSET ?offset'. The output RDF will consist of the constructed triples and (unless sml:replace is true) the input triples." ;
   rdfs:label "Apply construct with scrollable cursor" ;
 .
@@ -233,12 +230,10 @@ kbss-module:deploy
       spl:valueType xsd:boolean ;
       rdfs:comment "Replace context flag" ;
     ] ;
-  sm:icon "database" ;
   rdfs:label "Deploy" ;
 .
 kbss-module:form-generator
   rdf:type sm:Module ;
-  sm:icon "wpforms" ;
   rdfs:label "Form generator" ;
 .
 kbss-module:generic-kbss-modules
