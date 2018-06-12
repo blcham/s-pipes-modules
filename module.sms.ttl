@@ -327,9 +327,9 @@ kbss-module:sparql-endpoint-retrieve-graph
     ] ;
   spin:constraint [
       rdf:type spl:Argument ;
-      spl:optional "false"^^xsd:boolean ;
-      spl:predicate <http://onto.fel.cvut.cz/ontologies/lib/module/sparql-endpoint-retrieve-graph/named-graph-uri> ;
-      rdfs:comment "Named graph uri" ;
+      spl:optional "true"^^xsd:boolean ;
+      spl:predicate <http://onto.fel.cvut.cz/ontologies/lib/module/sparql-endpoint-retrieve-graph/named-graph-id> ;
+      rdfs:comment "Named graph id" ;
     ] ;
   spin:constraint [
       rdf:type spl:Argument ;
@@ -339,6 +339,7 @@ kbss-module:sparql-endpoint-retrieve-graph
       rdfs:comment "Page size" ;
     ] ;
   rdfs:label "SpEP retrieve graph" ;
+  rdfs:comment "Retrieves graph from sparql endpoint specified by ?endpointUrl and optionaly ?namedGraphId. If ?namedGraphId is not specified it retreaves the default graph." ;
 .
 kbss-module:temporal-v1
   rdf:type sm:Module ;
