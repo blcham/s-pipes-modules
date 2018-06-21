@@ -46,6 +46,15 @@ kbss-module:form-generator
 kbss-module:import-e5x
   rdfs:subClassOf sm:inbas-adapter-module ;
 .
+
+kbss-module:external-schemex
+  rdfs:subClassOf sm:inbas-adapter-module ;
+.
+kbss-module:sparql-endpoint-download-graph
+  rdfs:subClassOf sm:inbas-adapter-module ;
+.
+
+
 kbss-module:kbss-modules
   spin:constraint [
       rdf:type spl:Argument ;

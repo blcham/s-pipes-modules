@@ -336,6 +336,47 @@ kbss-module:sparql-endpoint-retrieve-graph
   rdfs:label "SpEP retrieve graph" ;
   rdfs:comment "Retrieves graph from sparql endpoint specified by ?endpointUrl and optionaly ?namedGraphId. If ?namedGraphId is not specified it retreaves the default graph." ;
 .
+kbss-module:sparql-endpoint-download-graph
+  rdf:type sm:Module ;
+  spin:constraint [
+      rdf:type spl:Argument ;
+      spl:optional "false"^^xsd:boolean ;
+      spl:predicate <http://onto.fel.cvut.cz/ontologies/lib/module/sparql-endpoint-download-graph/endpoint-url> ;
+      rdfs:comment "Endpoint url" ;
+    ] ;
+  spin:constraint [
+      rdf:type spl:Argument ;
+      spl:optional "true"^^xsd:boolean ;
+      spl:predicate <http://onto.fel.cvut.cz/ontologies/lib/module/sparql-endpoint-download-graph/named-graph-id> ;
+      rdfs:comment "Named graph id" ;
+    ] ;
+  spin:constraint [
+      rdf:type spl:Argument ;
+      spl:optional "true"^^xsd:boolean ;
+      spl:predicate <http://onto.fel.cvut.cz/ontologies/lib/module/sparql-endpoint-download-graph/page-size> ;
+      spl:valueType xsd:integer ;
+      rdfs:comment "Page size" ;
+    ] ;
+  spin:constraint [
+      rdf:type spl:Argument ;
+      spl:optional "true"^^xsd:boolean ;
+      spl:predicate <http://onto.fel.cvut.cz/ontologies/lib/module/sparql-endpoint-download-graph/output-resource-variable> ;
+      spl:valueType xsd:integer ;
+      rdfs:comment "Output resource variable" ;
+    ] ;
+  rdfs:label "SpEP download graph" ;
+  rdfs:comment "Downloads graph from sparql endpoint specified by 'endpointUrl' and optionaly 'namedGraphId' and saves it in ntriples format into new file whose path is returned through variable defined by outputResourceVariable. If namedGraphId is not specified it downloads the default graph." ;
+.
+kbss-module:external-schemex
+  rdf:type sm:Module ;
+  spin:constraint [
+      rdf:type spl:Argument ;
+      spl:predicate sml:sourceFilePath ;
+      rdfs:comment "Source file in nt format." ;
+    ] ;
+  rdfs:label "Compute schemex using external script" ;
+  rdfs:comment "Compute schemex using external script for a specified sourceFilePath." ;
+.
 kbss-module:temporal-v1
   rdf:type sm:Module ;
   rdfs:label "Temporal v1" ;
