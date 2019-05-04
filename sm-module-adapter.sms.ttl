@@ -87,7 +87,6 @@ kbss-module:void
   owl:imports <http://spinrdf.org/spl> ;
   owl:imports <http://topbraid.org/sparqlmotion> ;
   owl:imports <http://topbraid.org/sparqlmotionlib-core> ;
-  owl:versionInfo "Created with TopBraid Composer"^^xsd:string ;
 .
 sm:Modules
   spin:constraint [
