@@ -201,6 +201,23 @@ kbss-module:construct-form-metadata
     ] ;
   rdfs:label "Construct form metadata" ;
 .
+kbss-module:merge-form-metadata
+  rdf:type sm:Module ;
+  spin:constraint [
+      rdf:type spl:Argument ;
+      spl:predicate sml:replace ;
+      spl:valueType xsd:boolean ;
+      rdfs:comment "Replace context flag" ;
+    ] ;
+  spin:constraint [
+      rdf:type spl:Argument ;
+      spl:predicate kbss-module:execution-id ;
+      spl:valueType xsd:string ;
+      rdfs:comment "Execution id that will be used to constract quesiont IRIs" ;
+    ] ;
+  rdfs:label "Merge form metadata" ;
+  rdfs:comment "Inputs are sample form and Q&A model. Questions from both models are remapped to new IRIs based on question origin combined with executionId." ;
+.
 kbss-module:deploy
   rdf:type sm:Module ;
   spin:constraint [
