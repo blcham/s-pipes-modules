@@ -1,6 +1,6 @@
-# S-Pipes modules 
+# SPipes modules 
 
 This project defines shared modules for s-pipes framework.
 
 
-# Module definitions for S-Pipes
+# Module definitions for SPipes
