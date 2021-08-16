@@ -20,16 +20,129 @@
 .
 
 sml:ApplyConstruct 
-  rdf:type sm:Module .
+  a sm:Module ;
+  rdfs:subClassOf sm:Modules ;
+  spin:constraint [
+      a spl:Argument ;
+      spl:optional true ;
+      spl:predicate sml:replace ;
+      rdfs:comment "If set to true, the output triples will only contain the constructed triples. If no values or false are specified, the output will be the union of the input triples and the constructed triples." ;
+    ] ;
+  spin:constraint [
+      a spl:Attribute ;
+      spl:minCount 1 ;
+      spl:predicate sml:constructQuery ;
+      rdfs:comment "The SPARQL Construct queries that deliver the triples that shall be added." ;
+    ] ;
+  rdfs:comment "Runs one or more SPARQL Construct queries on the input triples. The output RDF will consist of the constructed triples and (unless sml:replace is true) the input triples." ;
+  rdfs:label "Apply Construct" ;
+
+.
+
 sml:BindBySelect 
-  rdf:type sm:Module .
+  rdfs:subClassOf sm:Modules ;
+  a sm:Module ;
+  spin:constraint [
+      a spl:Attribute ;
+      spl:maxCount 1 ;
+      spl:minCount 1 ;
+      spl:predicate sml:selectQuery ;
+      rdfs:comment "A SPARQL Select query that is executed over the input triples. The result variables of the first result row will be bound in the succeeding modules." ;
+    ] ;
+  rdfs:comment "Runs a SPARQL select query and binds all result variables of the first matching result set. The input RDF is simply passed through to the next module. For example, if you run SELECT ?name ?age WHERE { my:Person my:name ?name ; my:age ?age } then the variables name and age will be bound as output variables." ;
+  rdfs:label "Bind by select" ;
+.
+
 sml:BindWithConstant
-  rdf:type sm:Module .
+  rdfs:subClassOf sm:Modules ;
+  a sm:Module ;
+  spin:constraint [
+      a spl:Argument ;
+      spl:defaultValue "text" ;
+      spl:predicate sm:outputVariable ;
+      rdfs:comment "The name of the variable that will hold the constant. Default: text." ;
+    ] ;
+  spin:constraint [
+      a spl:Argument ;
+      spl:predicate sml:value ;
+      rdfs:comment "The constant value (either a resource or a literal)." ;
+    ] ;
+  rdfs:comment "Binds a variable with a given RDF node." ;
+  rdfs:label "Bind with constant" ;
+.
+
 sml:ExportToRDFFile
-  rdf:type sm:Module .
+  rdfs:subClassOf sm:Modules ;
+  a sm:Module ;
+  spin:constraint [
+      a spl:Argument ;
+      spl:optional true ;
+      spl:predicate sml:targetFilePath ;
+      rdfs:comment "The path of the file to create. The path can be relative to the current script's folder (e.g., myFolder/test.rdf) or absolute to the workspace root /myProject/myFolder/test.rdf. Can be left blank if the base URI already has a representation in the workspace. In that case, the primary file in the workspace will be overwritten." ;
+    ] ;
+  spin:constraint [
+      a spl:Argument ;
+      spl:predicate sml:baseURI ;
+      rdfs:comment "The base URI under which the resulting file will be registered in the workspace." ;
+    ] ;
+  rdfs:comment """Creates a new RDF file at the specified path inside the workspace and with the specified base URI. The serialization is derived from the file name according to TopBraid's conventions, e.g. files ending with .ttl will be written in Turtle format.
+
+Note that if an existing file is overwritten (with matching base URI), and the graph of this file has already been loaded, then the system will not reload the new graph. I.e. if the URI specified in sml:baseURI is the same baseURI of a graph currently open in TBC or TBL, the old graph will remain open and the export will only have an effect after closing the other copies.  A consequence of this is that you cannot overwrite a file and reload its new content within the same session, e.g. sml:ImportRDFFromWorkspace will still deliver the old graph. In order to modify an existing graph, the recommended approach is to use sml:PerformUpdate.""" ;
+  rdfs:label "Export to RDF file" ;
+.
+
 sml:Merge
-  rdf:type sm:Module .
+  rdfs:subClassOf sm:Modules ;
+  a sm:Module ;
+  rdfs:comment "This module type can be used to merge the variables and RDF triples from multiple input modules. The same is done by any other SPARQLMotion script that has multiple input modules. So while the sml:Merge module basically does not do anything at all, it can be useful to create a clean structure in your script, particularly if you have a case when you want to merge multiple graphs and then have multiple outgoing sm:next links from the merged graph." ;
+  rdfs:label "Merge" ;
+.
+
 sml:PerformUpdate
-  rdf:type sm:Module .
+  rdfs:subClassOf sm:Modules ;
+  a sm:Module ;
+  spin:constraint [
+      a spl:Attribute ;
+      spl:maxCount "1"^^xsd:int ;
+      spl:minCount "1"^^xsd:int ;
+      spl:predicate sml:updateQuery ;
+      spl:valueType sp:Update ;
+      rdfs:comment "The SPARQL 1.1 UPDATE request to perform.  Only one instance of this property will be executed." ;
+    ] ;
+  rdfs:comment """Performs a SPARQL UPDATE call to insert and/or delete triples.  This module differs from sml:ApplyConstruct (and other module types) by making persistent changes when the script runs.  Therefore this module should be used carefully.
+
+The default graph of the WHERE clause is the input graph of the module, i.e. the result of its predecessors. However, these cannot be modified using INSERT or DELETE. Instead, a named graph needs to be provided there, e.g. using the GRAPH keyword in the INSERT or DELETE clauses.
+
+Only one instance of sml:updateQuery will be executed.  For multiple SPARQL UPDATE statements use multiple PerformUpdate instances.
+
+EVN/EDG users note that performing an update on a graph under teamwork control (urn:x-evn-...) does not execute EVN-specific side effects: no edit rules will fire and no change history entry may be created. You should always use ui:update in conjunction with sml:CreateSWPDocument to modify such graphs.""" ;
+  rdfs:label "Perform update" ;
+.
+
 sml:ReturnRDF
-  rdf:type sm:Module .
+  rdfs:subClassOf sm:Modules ;
+  a sm:Module ;
+  spin:constraint [
+      a spl:Argument ;
+      spl:defaultValue sml:RDFXML ;
+      spl:predicate sml:serialization ;
+      spl:valueType sm:ValueType ;
+      rdfs:comment "The serialization format - must be sml:JSONLD, sml:RDFXML or sml:Turtle." ;
+    ] ;
+  spin:constraint [
+      a spl:Argument ;
+      spl:optional true ;
+      spl:predicate sml:baseURI ;
+      spl:valueType xsd:string ;
+      rdfs:comment "The base URI of the graph to serialize." ;
+    ] ;
+  spin:constraint [
+      a spl:Argument ;
+      spl:optional true ;
+      spl:predicate sml:sorted ;
+      spl:valueType xsd:boolean ;
+      rdfs:comment "True to produce sorted output that is friendly to versioning systems etc. Only supported for Turtle serialization. TurtlePlus does this by default." ;
+    ] ;
+  rdfs:comment "Represents the exit point of a function that returns RDF. The function can be referenced from the outside (e.g., as a web service) by its URI or local name. The RDF triples will be serialized into Turtle, JSON-LD or RDF/XML." ;
+  rdfs:label "Return RDF" ;
+.
