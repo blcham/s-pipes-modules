@@ -16,6 +16,9 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix sml: <http://topbraid.org/sparqlmotionlib#> .
 
+kbss-module:tabular
+  rdfs:subClassOf sm:kbss-adapter-module ;
+.
 kbss-module:apply-construct-with-chunked-values
   rdfs:subClassOf sm:kbss-adapter-module ;
 .

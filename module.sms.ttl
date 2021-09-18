@@ -8,6 +8,7 @@
 @prefix km-param: <http://onto.fel.cvut.cz/ontologies/lib/module-param/> .
 @prefix km-rdf4j: <http://onto.fel.cvut.cz/ontologies/lib/module/rdf4j/> .
 @prefix km-sesame: <http://onto.fel.cvut.cz/ontologies/lib/module/sesame/> .
+@prefix km-tabular: <http://onto.fel.cvut.cz/ontologies/lib/module/tabular/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
@@ -26,6 +27,55 @@ km-param:has-resource-uri
   rdf:type rdf:Property ;
   rdfs:label "has resource uri" ;
 .
+
+km-tabular:Mode
+	a sm:ValueType ;
+.
+
+km-tabular:minimal-mode
+	rdfs:label "Minimal mode" ;
+	a km-tabular:Mode ;
+.
+
+km-tabular:standard-mode
+	rdfs:label "Standard mode" ;
+	a km-tabular:Mode ;
+.
+
+km-tabular:output-mode
+	a rdf:Property ;
+	rdfs:range km-tabular:Mode ;
+.
+
+kbss-module:tabular
+  rdf:type sm:Module ;
+  rdfs:label "Tabular" ;
+  spin:constraint [
+      rdf:type spl:Argument ;
+      spl:optional "true"^^xsd:boolean ;
+      spl:predicate km-tabular:delimiter ;
+      rdfs:comment "Delimiter" ;
+    ] ;
+  spin:constraint [
+      rdf:type spl:Argument ;
+      spl:optional "true"^^xsd:boolean ;
+      spl:predicate km-tabular:quote-character ;
+      rdfs:comment "Quote" ;
+    ] ;
+  spin:constraint [
+      rdf:type spl:Argument ;
+      spl:optional "true"^^xsd:boolean ;
+      spl:predicate km-tabular:data-prefix ;
+      rdfs:comment "Data prefix" ;
+    ] ;
+  spin:constraint [
+      rdf:type spl:Argument ;
+      spl:optional "true"^^xsd:boolean ;
+      spl:predicate km-tabular:output-mode ;
+      rdfs:comment "Output mode" ;
+    ] ;
+.
+
 kbss-module:apply-construct-with-chunked-values
   rdf:type sm:Module ;
   spin:constraint [
