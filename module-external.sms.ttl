@@ -19,6 +19,12 @@
   rdf:type owl:Ontology ;
 .
 
+sml:ImportFileFromURL
+  a sm:Module ;
+.
+sml:ImportRDFFromWorkspace
+  a sm:Module ;
+.
 sml:ApplyConstruct 
   a sm:Module ;
   rdfs:subClassOf sm:Modules ;
