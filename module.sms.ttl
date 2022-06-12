@@ -9,6 +9,7 @@
 @prefix km-rdf4j: <http://onto.fel.cvut.cz/ontologies/lib/module/rdf4j/> .
 @prefix km-sesame: <http://onto.fel.cvut.cz/ontologies/lib/module/sesame/> .
 @prefix km-tabular: <http://onto.fel.cvut.cz/ontologies/lib/module/tabular/> .
+@prefix km-form: <http://onto.fel.cvut.cz/ontologies/lib/module/form/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
@@ -250,6 +251,34 @@ kbss-module:construct-form-metadata
       rdfs:comment "Replace context flag" ;
     ] ;
   rdfs:label "Construct form metadata" ;
+.
+kbss-module:construct-textual-view
+  rdf:type sm:Module ;
+  spin:constraint [
+      rdf:type spl:Argument ;
+      spl:predicate sml:replace ;
+      spl:valueType xsd:boolean ;
+      rdfs:comment "Replace context flag" ;
+    ] ;
+  spin:constraint [
+      rdf:type spl:Argument ;
+      spl:predicate km-form:serialize-unanswered-questions ;
+      spl:valueType xsd:boolean ;
+      rdfs:comment "If true (default), outputs questions not having answers" ;
+    ] ;
+  spin:constraint [
+      rdf:type spl:Argument ;
+      spl:predicate km-form:serialize-answers ;
+      spl:valueType xsd:boolean ;
+      rdfs:comment "If true (default), outputs answers not only questions" ;
+    ] ;
+  spin:constraint [
+      rdf:type spl:Argument ;
+      spl:predicate km-form:process-non-root-questions ;
+      spl:valueType xsd:boolean ;
+      rdfs:comment "If true (default), process all questions, otherwise process only root questions" ;
+    ] ;
+  rdfs:label "Construct textual view of questions provided in input" ;
 .
 kbss-module:merge-form-metadata
   rdf:type sm:Module ;
