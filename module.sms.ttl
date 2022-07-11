@@ -278,6 +278,12 @@ kbss-module:construct-textual-view
       spl:valueType xsd:boolean ;
       rdfs:comment "If true (default), process all questions, otherwise process only root questions" ;
     ] ;
+  spin:constraint [
+      rdf:type spl:Argument ;
+      spl:predicate km-form:indentation-string ;
+      spl:valueType xsd:string ;
+      rdfs:comment "Indentation string indents subquestion from questions. By default '  ' is used." ;
+    ] ;
   rdfs:label "Construct textual view of questions provided in input" ;
 .
 kbss-module:merge-form-metadata
