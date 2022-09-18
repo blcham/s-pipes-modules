@@ -252,6 +252,10 @@ kbss-module:construct-form-metadata
     ] ;
   rdfs:label "Construct form metadata" ;
 .
+kbss-module:fetch-possible-values
+  rdf:type sm:Module ;
+  rdfs:label "Fetch possible values of question" ;
+.
 kbss-module:construct-textual-view
   rdf:type sm:Module ;
   spin:constraint [

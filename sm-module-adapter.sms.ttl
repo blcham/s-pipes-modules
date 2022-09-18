@@ -43,6 +43,9 @@ kbss-module:construct-form-metadata
 kbss-module:merge-form-metadata
   rdfs:subClassOf sm:kbss-adapter-module ;
 .
+kbss-module:fetch-possible-values
+  rdfs:subClassOf sm:kbss-adapter-module ;
+.
 kbss-module:construct-textual-view
   rdfs:subClassOf sm:kbss-adapter-module ;
 .
