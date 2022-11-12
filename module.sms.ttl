@@ -288,6 +288,12 @@ kbss-module:construct-textual-view
       spl:valueType xsd:string ;
       rdfs:comment "Indentation string indents subquestion from questions. By default '  ' is used." ;
     ] ;
+  spin:constraint [
+      rdf:type spl:Argument ;
+      spl:predicate km-form:language ;
+      spl:valueType xsd:string ;
+      rdfs:comment "Language to be used to retrieve labels of questions. By default 'en' is used." ;
+    ] ;
   rdfs:label "Construct textual view of questions provided in input" ;
 .
 kbss-module:merge-form-metadata
