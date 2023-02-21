@@ -9,6 +9,7 @@
 @prefix km-rdf4j: <http://onto.fel.cvut.cz/ontologies/lib/module/rdf4j/> .
 @prefix km-sesame: <http://onto.fel.cvut.cz/ontologies/lib/module/sesame/> .
 @prefix km-tabular: <http://onto.fel.cvut.cz/ontologies/lib/module/tabular/> .
+@prefix km-rdf2csv: <http://onto.fel.cvut.cz/ontologies/lib/module/RDF2CSV/> .
 @prefix km-form: <http://onto.fel.cvut.cz/ontologies/lib/module/form/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
@@ -27,6 +28,28 @@
 km-param:has-resource-uri
   rdf:type rdf:Property ;
   rdfs:label "has resource uri" ;
+.
+
+kbss-module:RDF2CSV
+  rdf:type sm:Module ;
+  rdfs:label "RDF to CSV" ;
+  spin:constraint [
+      rdf:type spl:Argument ;
+      spl:optional "false"^^xsd:boolean ;
+      spl:predicate km-rdf2csv:file-output-path ;
+      rdfs:comment "The parameter representing where the output file will be stored" ;
+    ] ;
+.
+
+kbss-module:extract-term-occurrences
+  rdf:type sm:Module ;
+  rdfs:label "Extract term occurrences" ;
+    spin:constraint [
+      rdf:type spl:Argument ;
+      spl:optional "true"^^xsd:boolean ;
+      spl:predicate sml:replace ;
+      rdfs:comment "If set to true, the output triples will only contain the constructed triples. If no values or false are specified, the output will be the union of the input triples and the constructed triples." ;
+    ] ;
 .
 
 km-tabular:Mode
