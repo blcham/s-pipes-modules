@@ -9,6 +9,7 @@
 @prefix km-rdf4j: <http://onto.fel.cvut.cz/ontologies/lib/module/rdf4j/> .
 @prefix km-sesame: <http://onto.fel.cvut.cz/ontologies/lib/module/sesame/> .
 @prefix km-tabular: <http://onto.fel.cvut.cz/ontologies/lib/module/tabular/> .
+@prefix km-text-analysis: <http://onto.fel.cvut.cz/ontologies/lib/module/text-analysis/> .
 @prefix km-rdf2csv: <http://onto.fel.cvut.cz/ontologies/lib/module/RDF2CSV/> .
 @prefix km-form: <http://onto.fel.cvut.cz/ontologies/lib/module/form/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
@@ -38,6 +39,47 @@ kbss-module:RDF2CSV
       spl:optional "false"^^xsd:boolean ;
       spl:predicate km-rdf2csv:file-output-path ;
       rdfs:comment "The parameter representing where the output file will be stored" ;
+    ] ;
+.
+
+kbss-module:text-analysis
+  rdf:type sm:Module ;
+  rdfs:label "Text analysis" ;
+  spin:constraint [
+      rdf:type spl:Argument ;
+      spl:optional "true"^^xsd:boolean ;
+      spl:predicate km-text-analysis:service-url ;
+      rdfs:comment "The URL of the text analysis service to be used." ;
+    ] ;
+  spin:constraint [
+      rdf:type spl:Argument ;
+      spl:optional "true"^^xsd:boolean ;
+      spl:predicate km-text-analysis:vocabulary-iri ;
+      rdfs:comment "The IRI of the vocabulary to be used for entity recognition." ;
+    ] ;
+  spin:constraint [
+      rdf:type spl:Argument ;
+      spl:optional "true"^^xsd:boolean ;
+      spl:predicate km-text-analysis:vocabulary-repository ;
+      rdfs:comment "The IRI of the repository where the vocabulary is stored." ;
+    ] ;
+  spin:constraint [
+      rdf:type spl:Argument ;
+      spl:optional "true"^^xsd:boolean ;
+      spl:predicate km-text-analysis:language ;
+      rdfs:comment "The language of the text to be analyzed." ;
+    ] ;
+  spin:constraint [
+      rdf:type spl:Argument ;
+      spl:optional "true"^^xsd:boolean ;
+      spl:predicate km-text-analysis:literals-per-request ;
+      rdfs:comment "The number of literals to be processed per request to the web service." ;
+    ] ;
+  spin:constraint [
+      rdf:type spl:Argument ;
+      spl:optional "true"^^xsd:boolean ;
+      spl:predicate km-text-analysis:selectQuery ;
+      rdfs:comment "The SPARQL query to be used for selecting literals from the repository." ;
     ] ;
 .
 
