@@ -378,6 +378,10 @@ kbss-module:merge-form-metadata
   rdfs:label "Merge form metadata" ;
   rdfs:comment "Inputs are sample form and Q&A model. Questions from both models are remapped to new IRIs based on question origin combined with executionId." ;
 .
+kbss-module:rdf4j-update
+  rdf:type sm:Module ;
+  rdfs:label "RDF4J Update" ;
+.
 kbss-module:deploy
   rdf:type sm:Module ;
   spin:constraint [
