@@ -16,6 +16,12 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix sml: <http://topbraid.org/sparqlmotionlib#> .
 
+kbss-module:rdf4j-update
+  rdfs:subClassOf sm:kbss-adapter-module ;
+.
+kbss-module:rdf4j-create-repository
+  rdfs:subClassOf sm:kbss-adapter-module ;
+.
 kbss-module:RDF2CSV
   rdfs:subClassOf sm:kbss-adapter-module ;
 .
