@@ -382,6 +382,10 @@ kbss-module:rdf4j-update
   rdf:type sm:Module ;
   rdfs:label "RDF4J Update" ;
 .
+kbss-module:rdf4j-create-repository
+  rdf:type sm:Module ;
+  rdfs:label "RDF4J Update" ;
+.
 kbss-module:deploy
   rdf:type sm:Module ;
   spin:constraint [
