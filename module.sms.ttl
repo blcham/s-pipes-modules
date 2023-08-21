@@ -399,6 +399,25 @@ km-rdf4j:p-rdf4j-server-url a rdf:Property ;
 km-tabular:output-mode a rdf:Property ;
     rdfs:range km-tabular:Mode .
 
+sm:Modules spin:constraint [ a spl:Argument ;
+            spl:optional true ;
+            spl:predicate kbss-module:has-debug-mode-flag ;
+            spl:valueType xsd:boolean ;
+            rdfs:comment "Indicates whether this module should be in debug mode."^^xsd:string ],
+        [ a spl:Argument ;
+            spl:optional true ;
+            spl:predicate kbss-module:has-input-graph-constraint ;
+            rdfs:comment "Condition on input graph of this module."^^xsd:string ],
+        [ a spl:Argument ;
+            spl:optional true ;
+            spl:predicate kbss-module:has-output-graph-constraint ;
+            rdfs:comment "Condition on output graph of this module."^^xsd:string ],
+        [ a spl:Argument ;
+            spl:optional true ;
+            spl:predicate kbss-module:has-target-module-flag ;
+            spl:valueType xsd:boolean ;
+            rdfs:comment "Indicates whether this module should be executed as target module in debug environment."^^xsd:string ] .
+
 kbss-module:has-max-iteration-count a rdf:Property ;
     rdfs:label "maximum number of iterations"^^xsd:string ;
     rdfs:comment "Specifies what is maximum number of iterations of certain algorithm." ;
