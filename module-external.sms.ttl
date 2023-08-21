@@ -21,9 +21,11 @@
 
 sml:ImportFileFromURL
   a sm:Module ;
+  rdfs:subClassOf sm:Modules ;
 .
 sml:ImportRDFFromWorkspace
   a sm:Module ;
+  rdfs:subClassOf sm:Modules ;
 .
 sml:ApplyConstruct 
   a sm:Module ;
@@ -45,9 +47,9 @@ sml:ApplyConstruct
 
 .
 
-sml:BindBySelect 
-  rdfs:subClassOf sm:Modules ;
+sml:BindBySelect
   a sm:Module ;
+  rdfs:subClassOf sm:Modules ;
   spin:constraint [
       a spl:Attribute ;
       spl:maxCount 1 ;
@@ -60,8 +62,8 @@ sml:BindBySelect
 .
 
 sml:BindWithConstant
-  rdfs:subClassOf sm:Modules ;
   a sm:Module ;
+  rdfs:subClassOf sm:Modules ;
   spin:constraint [
       a spl:Argument ;
       spl:defaultValue "text" ;
@@ -78,8 +80,8 @@ sml:BindWithConstant
 .
 
 sml:ExportToRDFFile
-  rdfs:subClassOf sm:Modules ;
   a sm:Module ;
+  rdfs:subClassOf sm:Modules ;
   spin:constraint [
       a spl:Argument ;
       spl:optional true ;
@@ -98,15 +100,15 @@ Note that if an existing file is overwritten (with matching base URI), and the g
 .
 
 sml:Merge
-  rdfs:subClassOf sm:Modules ;
   a sm:Module ;
+  rdfs:subClassOf sm:Modules ;
   rdfs:comment "This module type can be used to merge the variables and RDF triples from multiple input modules. The same is done by any other SPARQLMotion script that has multiple input modules. So while the sml:Merge module basically does not do anything at all, it can be useful to create a clean structure in your script, particularly if you have a case when you want to merge multiple graphs and then have multiple outgoing sm:next links from the merged graph." ;
   rdfs:label "Merge" ;
 .
 
 sml:PerformUpdate
-  rdfs:subClassOf sm:Modules ;
   a sm:Module ;
+  rdfs:subClassOf sm:Modules ;
   spin:constraint [
       a spl:Attribute ;
       spl:maxCount "1"^^xsd:int ;
@@ -126,8 +128,8 @@ EVN/EDG users note that performing an update on a graph under teamwork control (
 .
 
 sml:ReturnRDF
-  rdfs:subClassOf sm:Modules ;
   a sm:Module ;
+  rdfs:subClassOf sm:Modules ;
   spin:constraint [
       a spl:Argument ;
       spl:defaultValue sml:RDFXML ;
