@@ -69,15 +69,6 @@ kbss-module:apply-construct-with-chunked-values-and-scrollable-cursor a sm:Modul
     rdfs:label "Apply construct with chunked values and scrollable cursor" ;
     spin:constraint [ a spl:Argument ;
             spl:optional true ;
-            spl:predicate <http://onto.fel.cvut.cz/ontologies/lib/module/apply-construct-with-chunked-values-and-scrollable-cursor/chunk-size> ;
-            rdfs:comment "Chunk size" ],
-        [ a spl:Argument ;
-            spl:optional true ;
-            spl:predicate <http://onto.fel.cvut.cz/ontologies/lib/module/apply-construct-with-chunked-values-and-scrollable-cursor/page-size> ;
-            spl:valueType xsd:integer ;
-            rdfs:comment "Page size for the scrollable cursor" ],
-        [ a spl:Argument ;
-            spl:optional true ;
             spl:predicate kbss-module:has-max-iteration-count ;
             rdfs:comment "Maximal number of iterations of the whole rule set. The actual number of iterations can be smaller, if no new inferences are generated any more. Cases: a) iterationCount = 0 means none of the rules will be executed,  b) iterationCount = 1 means the whole rule set is executed only once, c) iterationCount > 1 means the whole rule set is executed at most 'iterationCount' times. In each iteration, queries are evaluated on the model merged from the default model and the result of previous iteration. Within each iteration, all queries are evaluated on the same model." ],
         [ a spl:Argument ;
@@ -96,7 +87,16 @@ kbss-module:apply-construct-with-chunked-values-and-scrollable-cursor a sm:Modul
         [ a spl:Attribute ;
             spl:minCount 1 ;
             spl:predicate sml:constructQuery ;
-            rdfs:comment "The construct queries with markers #${VALUES} and #${LIMIT_OFFSET}." ] ;
+            rdfs:comment "The construct queries with markers #${VALUES} and #${LIMIT_OFFSET}." ],
+        [ a spl:Argument ;
+            spl:optional true ;
+            spl:predicate <http://onto.fel.cvut.cz/ontologies/lib/module/apply-construct-with-chunked-values-and-scrollable-cursor/chunk-size> ;
+            rdfs:comment "Chunk size" ],
+        [ a spl:Argument ;
+            spl:optional true ;
+            spl:predicate <http://onto.fel.cvut.cz/ontologies/lib/module/apply-construct-with-chunked-values-and-scrollable-cursor/page-size> ;
+            spl:valueType xsd:integer ;
+            rdfs:comment "Page size for the scrollable cursor" ] ;
     rdfs:comment "Runs one or more construct queries on the input triples. Queries are executed multiple times with inserted values clause and limit+offset clauses wihin the queries. The values clause is marked by #${VALUES} marker, while limit+offset clauses are marked by #${LIMIT_OFFSET} marker. #${VALUES} marker is substituted by output of provided select query and specified chunk size which defines how many rows of the select query will be substituted for the marker. Each such query is executed multiple times with scrollable cursor, i.e. #{LIMIT_OFFSET} marker is substituted by by sparql constructs 'LIMIT ?limit' and 'OFFSET ?offset'. The output RDF will consist of the constructed triples and (unless sml:replace is true) the input triples." .
 
 kbss-module:apply-construct-with-scrollable-cursor a sm:Module ;
@@ -207,24 +207,6 @@ kbss-module:fetch-possible-values a sm:Module ;
 
 kbss-module:form-generator a sm:Module ;
     rdfs:label "Form generator" .
-
-kbss-module:has-debug-mode-flag a rdf:Property ;
-    rdfs:label "has debug mode flag" ;
-    rdfs:subPropertyOf spin:query .
-
-kbss-module:has-input-graph-constraint a rdf:Property ;
-    rdfs:label "has input graph constraint" ;
-    rdfs:comment "Specifies constraint on merged input graph of the module. The constraint can be specified by ASK query which should return true if constraint is violated. If first line of the query is SPARQL comment, this comment is used to give user human readable description (e.g. within the log of s-pipes execution)." ;
-    rdfs:subPropertyOf spin:query .
-
-kbss-module:has-output-graph-constraint a rdf:Property ;
-    rdfs:label "has output graph constraint" ;
-    rdfs:comment "Specifies constraint on returned output graph of the module. The constraint can be specified by ASK query which should return true if constraint is violated. If first line of the query is SPARQL comment, this comment is used to give user human readable description (e.g. within the log of s-pipes execution)." ;
-    rdfs:subPropertyOf spin:query .
-
-kbss-module:has-target-module-flag a rdf:Property ;
-    rdfs:label "has target module flag" ;
-    rdfs:subPropertyOf spin:query .
 
 kbss-module:import-e5x a sm:Module ;
     rdfs:label "Import E5X file" ;
@@ -383,6 +365,24 @@ kbss-module:void a sm:Module ;
 
 km-param:has-resource-uri a rdf:Property ;
     rdfs:label "has resource uri" .
+
+kbss-module:has-debug-mode-flag a rdf:Property ;
+    rdfs:label "has debug mode flag" ;
+    rdfs:subPropertyOf spin:query .
+
+kbss-module:has-input-graph-constraint a rdf:Property ;
+    rdfs:label "has input graph constraint" ;
+    rdfs:comment "Specifies constraint on merged input graph of the module. The constraint can be specified by ASK query which should return true if constraint is violated. If first line of the query is SPARQL comment, this comment is used to give user human readable description (e.g. within the log of s-pipes execution)." ;
+    rdfs:subPropertyOf spin:query .
+
+kbss-module:has-output-graph-constraint a rdf:Property ;
+    rdfs:label "has output graph constraint" ;
+    rdfs:comment "Specifies constraint on returned output graph of the module. The constraint can be specified by ASK query which should return true if constraint is violated. If first line of the query is SPARQL comment, this comment is used to give user human readable description (e.g. within the log of s-pipes execution)." ;
+    rdfs:subPropertyOf spin:query .
+
+kbss-module:has-target-module-flag a rdf:Property ;
+    rdfs:label "has target module flag" ;
+    rdfs:subPropertyOf spin:query .
 
 km-rdf4j:p-is-replace a rdf:Property ;
     rdfs:label "Is replace" .
