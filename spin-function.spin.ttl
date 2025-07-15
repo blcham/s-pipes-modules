@@ -17,8 +17,8 @@
 .
 kbss-spif:create-sparql-service-url
   rdf:type sh:SPARQLFunction ;
-  rdfs:label "create sparql service url"^^xsd:string ;
-  rdfs:comment "Construct sparql service url from ?sparqlEndpointUrl and ?namedGraphURI."^^xsd:string ;
+  rdfs:label "create sparql service url" ;
+  rdfs:comment "Construct sparql service url from ?sparqlEndpointUrl and ?namedGraphURI." ;
   sh:select """
     SELECT ?serviceUrl
     WHERE {
@@ -32,17 +32,17 @@ kbss-spif:create-sparql-service-url
         )) AS ?serviceUrl
       )
     }
-  """^^xsd:string ;
+  """ ;
   sh:parameter [
     sh:path kbss-spif:arg1 ;
     sh:datatype xsd:string ;
-    sh:description "Sparql endpoint uri (e.g. http://onto.fel.cvut.cz/openrdf-sesame/repositories/test-repo)."^^xsd:string ;
+    sh:description "Sparql endpoint uri (e.g. http://onto.fel.cvut.cz/openrdf-sesame/repositories/test-repo)." ;
     sh:minCount 1 ;
   ] ;
   sh:parameter [
     sh:path kbss-spif:arg2 ;
     sh:datatype xsd:string ;
-    sh:description "URI of named graph (e.g. http://example.org/my-ontology)."^^xsd:string ;
+    sh:description "URI of named graph (e.g. http://example.org/my-ontology)." ;
     sh:optional true ;
   ] ;
 .
