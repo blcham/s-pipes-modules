@@ -8,10 +8,9 @@
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix sm: <http://topbraid.org/sparqlmotion#> .
 @prefix sml: <http://topbraid.org/sparqlmotionlib#> .
-@prefix spin: <http://spinrdf.org/spin#> .
-@prefix spl: <http://spinrdf.org/spl#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 kbss-module:generic-kbss-modules a rdfs:Class ;
@@ -27,113 +26,133 @@ kbss-module:kbss-modules a rdfs:Class ;
     rdfs:subClassOf sm:Modules .
 
 <http://onto.fel.cvut.cz/ontologies/lib/module> a owl:Ontology ;
-    owl:imports <http://spinrdf.org/spl> .
+    owl:imports <http://www.w3.org/ns/shacl> .
 
 kbss-module:RDF2CSV a sm:Module ;
     rdfs:label "RDF to CSV" ;
-    spin:constraint [ a spl:Argument ;
-            spl:optional false ;
-            spl:predicate km-rdf2csv:file-output-path ;
-            rdfs:comment "The parameter representing where the output file will be stored" ] ;
+    sh:parameter [
+        sh:path km-rdf2csv:file-output-path ;
+        sh:optional false ;
+        sh:description "The parameter representing where the output file will be stored" ;
+    ] ;
     rdfs:subClassOf kbss-module:generic-kbss-modules .
 
 kbss-module:apply-construct-with-chunked-values a sm:Module ;
     rdfs:label "Apply construct with chunked values" ;
-    spin:constraint [ a spl:Argument ;
-            spl:optional true ;
-            spl:predicate <http://onto.fel.cvut.cz/ontologies/lib/module/apply-construct-with-chunked-values/chunk-size> ;
-            rdfs:comment "Chunk size" ],
-        [ a spl:Argument ;
-            spl:optional true ;
-            spl:predicate kbss-module:has-max-iteration-count ;
-            rdfs:comment "Maximal number of iterations of the whole rule set. The actual number of iterations can be smaller, if no new inferences are generated any more. Cases: a) iterationCount = 0 means none of the rules will be executed,  b) iterationCount = 1 means the whole rule set is executed only once, c) iterationCount > 1 means the whole rule set is executed at most 'iterationCount' times. In each iteration, queries are evaluated on the model merged from the default model and the result of previous iteration. Within each iteration, all queries are evaluated on the same model." ],
-        [ a spl:Argument ;
-            spl:optional true ;
-            spl:predicate kbss-module:is-parse-text ;
-            rdfs:comment "If set to true, the queries are parsed rather from textual representation than spin-representation." ],
-        [ a spl:Argument ;
-            spl:optional true ;
-            spl:predicate sml:replace ;
-            rdfs:comment "If set to true, the output triples will only contain the constructed triples. If no values or false are specified, the output will be the union of the input triples and the constructed triples." ],
-        [ a spl:Attribute ;
-            spl:maxCount 1 ;
-            spl:minCount 1 ;
-            spl:predicate sml:selectQuery ;
-            rdfs:comment "The select query that will be used to iterate over construct query templates." ],
-        [ a spl:Attribute ;
-            spl:minCount 1 ;
-            spl:predicate sml:constructQuery ;
-            rdfs:comment "The construct queries with marker #${VALUES}." ] ;
-    rdfs:comment "Runs one or more construct queries on the input triples. Queries are executed multiple times with inserted values clause wihin the queries. The values clause is marked by #${VALUES} marker. It is substituted by output of provided select query and specified chunk size which defines how many rows of the select query will be substituted for the marker." ;
+    sh:parameter [
+        sh:path <http://onto.fel.cvut.cz/ontologies/lib/module/apply-construct-with-chunked-values/chunk-size> ;
+        sh:optional true ;
+        sh:description "Chunk size" ;
+    ] ;
+    sh:parameter [
+        sh:path kbss-module:has-max-iteration-count ;
+        sh:optional true ;
+        sh:description "Maximal number of iterations of the whole rule set. The actual number of iterations can be smaller, if no new inferences are generated any more. Cases: a) iterationCount = 0 means none of the rules will be executed,  b) iterationCount = 1 means the whole rule set is executed only once, c) iterationCount > 1 means the whole rule set is executed at most 'iterationCount' times. In each iteration, queries are evaluated on the model merged from the default model and the result of previous iteration. Within each iteration, all queries are evaluated on the same model." ;
+    ] ;
+    sh:parameter [
+        sh:path kbss-module:is-parse-text ;
+        sh:optional true ;
+        sh:description "If set to true, the queries are parsed rather from textual representation than spin-representation." ;
+    ] ;
+    sh:parameter [
+        sh:path sml:replace ;
+        sh:optional true ;
+        sh:description "If set to true, the output triples will only contain the constructed triples. If no values or false are specified, the output will be the union of the input triples and the constructed triples." ;
+    ] ;
+    sh:parameter [
+        sh:path sml:selectQuery ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:description "The select query that will be used to iterate over construct query templates." ;
+    ] ;
+    sh:parameter [
+        sh:path sml:constructQuery ;
+        sh:minCount 1 ;
+        sh:description "The construct queries with marker #${VALUES}." ;
+    ] ;
+    rdfs:comment "Runs one or more construct queries on the input triples. Queries are executed multiple times with inserted values clause within the queries. The values clause is marked by #${VALUES} marker. It is substituted by output of provided select query and specified chunk size which defines how many rows of the select query will be substituted for the marker." ;
     rdfs:subClassOf kbss-module:generic-kbss-modules .
 
 kbss-module:apply-construct-with-chunked-values-and-scrollable-cursor a sm:Module ;
     rdfs:label "Apply construct with chunked values and scrollable cursor" ;
-    spin:constraint [ a spl:Argument ;
-            spl:optional true ;
-            spl:predicate <http://onto.fel.cvut.cz/ontologies/lib/module/apply-construct-with-chunked-values-and-scrollable-cursor/page-size> ;
-            spl:valueType xsd:integer ;
-            rdfs:comment "Page size for the scrollable cursor" ],
-        [ a spl:Argument ;
-            spl:optional true ;
-            spl:predicate kbss-module:has-max-iteration-count ;
-            rdfs:comment "Maximal number of iterations of the whole rule set. The actual number of iterations can be smaller, if no new inferences are generated any more. Cases: a) iterationCount = 0 means none of the rules will be executed,  b) iterationCount = 1 means the whole rule set is executed only once, c) iterationCount > 1 means the whole rule set is executed at most 'iterationCount' times. In each iteration, queries are evaluated on the model merged from the default model and the result of previous iteration. Within each iteration, all queries are evaluated on the same model." ],
-        [ a spl:Argument ;
-            spl:optional true ;
-            spl:predicate kbss-module:is-parse-text ;
-            rdfs:comment "If set to true, the queries are parsed rather from textual representation than spin-representation." ],
-        [ a spl:Argument ;
-            spl:optional true ;
-            spl:predicate sml:replace ;
-            rdfs:comment "If set to true, the output triples will only contain the constructed triples. If no values or false are specified, the output will be the union of the input triples and the constructed triples." ],
-        [ a spl:Attribute ;
-            spl:maxCount 1 ;
-            spl:minCount 1 ;
-            spl:predicate sml:selectQuery ;
-            rdfs:comment "The select query that will be used to iterate over construct query templates." ],
-        [ a spl:Attribute ;
-            spl:minCount 1 ;
-            spl:predicate sml:constructQuery ;
-            rdfs:comment "The construct queries with markers #${VALUES} and #${LIMIT_OFFSET}." ],
-        [ a spl:Argument ;
-            spl:optional true ;
-            spl:predicate <http://onto.fel.cvut.cz/ontologies/lib/module/apply-construct-with-chunked-values-and-scrollable-cursor/chunk-size> ;
-            rdfs:comment "Chunk size" ] ;
-    rdfs:comment "Runs one or more construct queries on the input triples. Queries are executed multiple times with inserted values clause and limit+offset clauses wihin the queries. The values clause is marked by #${VALUES} marker, while limit+offset clauses are marked by #${LIMIT_OFFSET} marker. #${VALUES} marker is substituted by output of provided select query and specified chunk size which defines how many rows of the select query will be substituted for the marker. Each such query is executed multiple times with scrollable cursor, i.e. #{LIMIT_OFFSET} marker is substituted by by sparql constructs 'LIMIT ?limit' and 'OFFSET ?offset'. The output RDF will consist of the constructed triples and (unless sml:replace is true) the input triples." ;
+    sh:parameter [
+        sh:path <http://onto.fel.cvut.cz/ontologies/lib/module/apply-construct-with-chunked-values-and-scrollable-cursor/page-size> ;
+        sh:optional true ;
+        sh:datatype xsd:integer ;
+        sh:description "Page size for the scrollable cursor" ;
+    ] ;
+    sh:parameter [
+        sh:path kbss-module:has-max-iteration-count ;
+        sh:optional true ;
+        sh:description "Maximal number of iterations of the whole rule set. The actual number of iterations can be smaller, if no new inferences are generated any more. Cases: a) iterationCount = 0 means none of the rules will be executed,  b) iterationCount = 1 means the whole rule set is executed only once, c) iterationCount > 1 means the whole rule set is executed at most 'iterationCount' times. In each iteration, queries are evaluated on the model merged from the default model and the result of previous iteration. Within each iteration, all queries are evaluated on the same model." ;
+    ] ;
+    sh:parameter [
+        sh:path kbss-module:is-parse-text ;
+        sh:optional true ;
+        sh:description "If set to true, the queries are parsed rather from textual representation than spin-representation." ;
+    ] ;
+    sh:parameter [
+        sh:path sml:replace ;
+        sh:optional true ;
+        sh:description "If set to true, the output triples will only contain the constructed triples. If no values or false are specified, the output will be the union of the input triples and the constructed triples." ;
+    ] ;
+    sh:parameter [
+        sh:path sml:selectQuery ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:description "The select query that will be used to iterate over construct query templates." ;
+    ] ;
+    sh:parameter [
+        sh:path sml:constructQuery ;
+        sh:minCount 1 ;
+        sh:description "The construct queries with markers #${VALUES} and #${LIMIT_OFFSET}." ;
+    ] ;
+    sh:parameter [
+        sh:path <http://onto.fel.cvut.cz/ontologies/lib/module/apply-construct-with-chunked-values-and-scrollable-cursor/chunk-size> ;
+        sh:optional true ;
+        sh:description "Chunk size" ;
+    ] ;
+    rdfs:comment "Runs one or more construct queries on the input triples. Queries are executed multiple times with inserted values clause and limit+offset clauses within the queries. The values clause is marked by #${VALUES} marker, while limit+offset clauses are marked by #${LIMIT_OFFSET} marker. #${VALUES} marker is substituted by output of provided select query and specified chunk size which defines how many rows of the select query will be substituted for the marker. Each such query is executed multiple times with scrollable cursor, i.e. #${LIMIT_OFFSET} marker is substituted by sparql constructs 'LIMIT ?limit' and 'OFFSET ?offset'. The output RDF will consist of the constructed triples and (unless sml:replace is true) the input triples." ;
     rdfs:subClassOf kbss-module:generic-kbss-modules .
 
 kbss-module:apply-construct-with-scrollable-cursor a sm:Module ;
     rdfs:label "Apply construct with scrollable cursor" ;
-    spin:constraint [ a spl:Argument ;
-            spl:optional true ;
-            spl:predicate <http://onto.fel.cvut.cz/ontologies/lib/module/apply-construct-with-scrollable-cursor/page-size> ;
-            spl:valueType xsd:integer ;
-            rdfs:comment "Page size" ],
-        [ a spl:Argument ;
-            spl:optional true ;
-            spl:predicate kbss-module:has-max-iteration-count ;
-            rdfs:comment "Maximal number of iterations of the whole rule set. The actual number of iterations can be smaller, if no new inferences are generated any more. Cases: a) iterationCount = 0 means none of the rules will be executed,  b) iterationCount = 1 means the whole rule set is executed only once, c) iterationCount > 1 means the whole rule set is executed at most 'iterationCount' times. In each iteration, queries are evaluated on the model merged from the default model and the result of previous iteration. Within each iteration, all queries are evaluated on the same model." ],
-        [ a spl:Argument ;
-            spl:optional true ;
-            spl:predicate kbss-module:is-parse-text ;
-            rdfs:comment "If set to true, the queries are parsed rather from textual representation than spin-representation." ],
-        [ a spl:Argument ;
-            spl:optional true ;
-            spl:predicate sml:replace ;
-            rdfs:comment "If set to true, the output triples will only contain the constructed triples. If no values or false are specified, the output will be the union of the input triples and the constructed triples." ],
-        [ a spl:Attribute ;
-            spl:minCount 1 ;
-            spl:predicate sml:constructQuery ;
-            rdfs:comment "The construct queries with marker #${LIMIT_OFFSET}." ] ;
-    rdfs:comment "Runs one or more construct queries (bound to sml:constructQuery) on the input triples. Queries are executed multiple times with scrollable cursor that is injected through query marker #${LIMIT_OFFSET}. The marker is replaced each time with appropriatei by sparql constructs 'LIMIT ?limit' and 'OFFSET ?offset'. Within each construct query The output RDF will consist of the constructed triples and (unless sml:replace is true) the input triples." ;
+    sh:parameter [
+        sh:path <http://onto.fel.cvut.cz/ontologies/lib/module/apply-construct-with-scrollable-cursor/page-size> ;
+        sh:optional true ;
+        sh:datatype xsd:integer ;
+        sh:description "Page size" ;
+    ] ;
+    sh:parameter [
+        sh:path kbss-module:has-max-iteration-count ;
+        sh:optional true ;
+        sh:description "Maximal number of iterations of the whole rule set. The actual number of iterations can be smaller, if no new inferences are generated any more. Cases: a) iterationCount = 0 means none of the rules will be executed,  b) iterationCount = 1 means the whole rule set is executed only once, c) iterationCount > 1 means the whole rule set is executed at most 'iterationCount' times. In each iteration, queries are evaluated on the model merged from the default model and the result of previous iteration. Within each iteration, all queries are evaluated on the same model." ;
+    ] ;
+    sh:parameter [
+        sh:path kbss-module:is-parse-text ;
+        sh:optional true ;
+        sh:description "If set to true, the queries are parsed rather from textual representation than spin-representation." ;
+    ] ;
+    sh:parameter [
+        sh:path sml:replace ;
+        sh:optional true ;
+        sh:description "If set to true, the output triples will only contain the constructed triples. If no values or false are specified, the output will be the union of the input triples and the constructed triples." ;
+    ] ;
+    sh:parameter [
+        sh:path sml:constructQuery ;
+        sh:minCount 1 ;
+        sh:description "The construct queries with marker #${LIMIT_OFFSET}." ;
+    ] ;
+    rdfs:comment "Runs one or more construct queries (bound to sml:constructQuery) on the input triples. Queries are executed multiple times with scrollable cursor that is injected through query marker #${LIMIT_OFFSET}. The marker is replaced each time with appropriate sparql constructs 'LIMIT ?limit' and 'OFFSET ?offset'. Within each construct query the output RDF will consist of the constructed triples and (unless sml:replace is true) the input triples." ;
     rdfs:subClassOf kbss-module:generic-kbss-modules .
 
 kbss-module:bind-rdf-content-hash a sm:Module ;
     rdfs:label "Bind rdf content hash" ;
-    spin:constraint [ a spl:Argument ;
-            spl:optional false ;
-            spl:predicate sm:outputVariable ;
-            rdfs:comment "Output variable to store computed hash" ] ;
+    sh:parameter [
+        sh:path sm:outputVariable ;
+        sh:optional false ;
+        sh:description "Output variable to store computed hash" ;
+    ] ;
     rdfs:comment "Bind hash that is computed from input rdf data" ;
     rdfs:subClassOf kbss-module:generic-kbss-modules .
 
@@ -143,74 +162,87 @@ kbss-module:cli a sm:Module ;
 
 kbss-module:construct-form-metadata a sm:Module ;
     rdfs:label "Construct form metadata" ;
-    spin:constraint [ a spl:Argument ;
-            spl:predicate sml:replace ;
-            spl:valueType xsd:boolean ;
-            rdfs:comment "Replace context flag" ] ;
+    sh:parameter [
+        sh:path sml:replace ;
+        sh:datatype xsd:boolean ;
+        sh:description "Replace context flag" ;
+    ] ;
     rdfs:subClassOf kbss-module:generic-kbss-modules .
 
 kbss-module:construct-textual-view a sm:Module ;
     rdfs:label "Construct textual view of questions provided in input" ;
-    spin:constraint [ a spl:Argument ;
-            spl:predicate sml:replace ;
-            spl:valueType xsd:boolean ;
-            rdfs:comment "Replace context flag" ],
-        [ a spl:Argument ;
-            spl:predicate km-form:serialize-unanswered-questions ;
-            spl:valueType xsd:boolean ;
-            rdfs:comment "If true (default), outputs questions not having answers" ],
-        [ a spl:Argument ;
-            spl:predicate km-form:serialize-answers ;
-            spl:valueType xsd:boolean ;
-            rdfs:comment "If true (default), outputs answers not only questions" ],
-        [ a spl:Argument ;
-            spl:predicate km-form:process-non-root-questions ;
-            spl:valueType xsd:boolean ;
-            rdfs:comment "If true (default), process all questions, otherwise process only root questions" ],
-        [ a spl:Argument ;
-            spl:predicate km-form:indentation-string ;
-            spl:valueType xsd:string ;
-            rdfs:comment "Indentation string indents subquestion from questions. By default '  ' is used." ],
-        [ a spl:Argument ;
-            spl:predicate km-form:language ;
-            spl:valueType xsd:string ;
-            rdfs:comment "Language to be used to retrieve labels of questions. By default 'en' is used." ] ;
+    sh:parameter [
+        sh:path sml:replace ;
+        sh:datatype xsd:boolean ;
+        sh:description "Replace context flag" ;
+    ] ;
+    sh:parameter [
+        sh:path km-form:serialize-unanswered-questions ;
+        sh:datatype xsd:boolean ;
+        sh:description "If true (default), outputs questions not having answers" ;
+    ] ;
+    sh:parameter [
+        sh:path km-form:serialize-answers ;
+        sh:datatype xsd:boolean ;
+        sh:description "If true (default), outputs answers not only questions" ;
+    ] ;
+    sh:parameter [
+        sh:path km-form:process-non-root-questions ;
+        sh:datatype xsd:boolean ;
+        sh:description "If true (default), process all questions, otherwise process only root questions" ;
+    ] ;
+    sh:parameter [
+        sh:path km-form:indentation-string ;
+        sh:datatype xsd:string ;
+        sh:description "Indentation string indents subquestion from questions. By default '  ' is used." ;
+    ] ;
+    sh:parameter [
+        sh:path km-form:language ;
+        sh:datatype xsd:string ;
+        sh:description "Language to be used to retrieve labels of questions. By default 'en' is used." ;
+    ] ;
     rdfs:subClassOf kbss-module:generic-kbss-modules .
 
 kbss-module:deploy a sm:Module ;
     rdfs:label "Deploy" ;
-    spin:constraint [ a spl:Argument ;
-            spl:optional false ;
-            spl:predicate km-rdf4j:p-rdf4j-context-iri ;
-            rdfs:comment "Context IRI" ],
-        [ a spl:Argument ;
-            spl:optional false ;
-            spl:predicate km-rdf4j:p-rdf4j-repository-name ;
-            rdfs:comment "Repository name" ],
-        [ a spl:Argument ;
-            spl:optional false ;
-            spl:predicate km-rdf4j:p-rdf4j-server-url ;
-            rdfs:comment "Server URL" ],
-        [ a spl:Argument ;
-            spl:predicate km-rdf4j:p-is-replace ;
-            spl:valueType xsd:boolean ;
-            rdfs:comment "Replace context flag" ] ;
+    sh:parameter [
+        sh:path km-rdf4j:p-rdf4j-context-iri ;
+        sh:optional false ;
+        sh:description "Context IRI" ;
+    ] ;
+    sh:parameter [
+        sh:path km-rdf4j:p-rdf4j-repository-name ;
+        sh:optional false ;
+        sh:description "Repository name" ;
+    ] ;
+    sh:parameter [
+        sh:path km-rdf4j:p-rdf4j-server-url ;
+        sh:optional false ;
+        sh:description "Server URL" ;
+    ] ;
+    sh:parameter [
+        sh:path km-rdf4j:p-is-replace ;
+        sh:datatype xsd:boolean ;
+        sh:description "Replace context flag" ;
+    ] ;
     rdfs:subClassOf kbss-module:generic-kbss-modules .
 
 kbss-module:external-schemex a sm:Module ;
     rdfs:label "Compute schemex using external script" ;
-    spin:constraint [ a spl:Argument ;
-            spl:predicate sml:sourceFilePath ;
-            rdfs:comment "Source file in nt format." ] ;
+    sh:parameter [
+        sh:path sml:sourceFilePath ;
+        sh:description "Source file in nt format." ;
+    ] ;
     rdfs:comment "Compute schemex using external script for a specified sourceFilePath." ;
     rdfs:subClassOf kbss-module:inbas-modules .
 
 kbss-module:extract-term-occurrences a sm:Module ;
     rdfs:label "Extract term occurrences" ;
-    spin:constraint [ a spl:Argument ;
-            spl:optional true ;
-            spl:predicate sml:replace ;
-            rdfs:comment "If set to true, the output triples will only contain the constructed triples. If no values or false are specified, the output will be the union of the input triples and the constructed triples." ] ;
+    sh:parameter [
+        sh:path sml:replace ;
+        sh:optional true ;
+        sh:description "If set to true, the output triples will only contain the constructed triples. If no values or false are specified, the output will be the union of the input triples and the constructed triples." ;
+    ] ;
     rdfs:subClassOf kbss-module:generic-kbss-modules .
 
 kbss-module:fetch-possible-values a sm:Module ;
@@ -223,40 +255,46 @@ kbss-module:form-generator a sm:Module ;
 
 kbss-module:import-e5x a sm:Module ;
     rdfs:label "Import E5X file" ;
-    spin:constraint [ a spl:Argument ;
-            spl:optional false ;
-            spl:predicate km-param:has-resource-uri ;
-            rdfs:comment "Uri of a resource referencing content of an e5x file" ] ;
+    sh:parameter [
+        sh:path km-param:has-resource-uri ;
+        sh:optional false ;
+        sh:description "Uri of a resource referencing content of an e5x file" ;
+    ] ;
     rdfs:comment "Import E5X file by creating RDF representation of the file" ;
     rdfs:subClassOf kbss-module:inbas-modules .
 
 kbss-module:improve-spo-with-marginals a sm:Module ;
     rdfs:label "Improve spo summary with marginals" ;
-    spin:constraint [ a spl:Argument ;
-            spl:optional "false"^^xsd:string ;
-            spl:predicate <http://onto.fel.cvut.cz/ontologies/lib/module/improve-spo-with-marginals/marginals-defs-file-url> ;
-            rdfs:comment "Marginal definitions file url" ],
-        [ a spl:Argument ;
-            spl:optional "false"^^xsd:string ;
-            spl:predicate <http://onto.fel.cvut.cz/ontologies/lib/module/improve-spo-with-marginals/data-service-url> ;
-            rdfs:comment "Data service url" ],
-        [ a spl:Argument ;
-            spl:optional "true"^^xsd:string ;
-            spl:predicate <http://onto.fel.cvut.cz/ontologies/lib/module/improve-spo-with-marginals/marginal-constraint> ;
-            rdfs:comment "Marginal constraint" ] ;
-    rdfs:comment "Constructs improved spo-summary descriptor with knowledge of provided marginals of weakly described resources. This module expects as an input graph computed spo-summary patterns (or possibly whole spo-summary descriptor) compliant with data provided in ?data-service-url. Within the input graph it identifies 'breakable patterns', i.e. spo-summary patterns that can be improved with knowledge of marginals computed in ?marginals-defs-file-url. The output of the module is a spo-summary descriptor that  contains original spo-summary patterns whenever possible and new spo-summary patterns that were created with additional knowledge of marginals." ;
+    sh:parameter [
+        sh:path <http://onto.fel.cvut.cz/ontologies/lib/module/improve-spo-with-marginals/marginals-defs-file-url> ;
+        sh:optional false ;
+        sh:description "Marginal definitions file url" ;
+    ] ;
+    sh:parameter [
+        sh:path <http://onto.fel.cvut.cz/ontologies/lib/module/improve-spo-with-marginals/data-service-url> ;
+        sh:optional false ;
+        sh:description "Data service url" ;
+    ] ;
+    sh:parameter [
+        sh:path <http://onto.fel.cvut.cz/ontologies/lib/module/improve-spo-with-marginals/marginal-constraint> ;
+        sh:optional true ;
+        sh:description "Marginal constraint" ;
+    ] ;
+    rdfs:comment "Constructs improved spo-summary descriptor with knowledge of provided marginals of weakly described resources. This module expects as an input graph computed spo-summary patterns (or possibly whole spo-summary descriptor) compliant with data provided in ?data-service-url. Within the input graph it identifies 'breakable patterns', i.e. spo-summary patterns that can be improved with knowledge of marginals computed in ?marginals-defs-file-url. The output of the module is a spo-summary descriptor that contains original spo-summary patterns whenever possible and new spo-summary patterns that were created with additional knowledge of marginals." ;
     rdfs:subClassOf kbss-module:generic-kbss-modules .
 
 kbss-module:merge-form-metadata a sm:Module ;
     rdfs:label "Merge form metadata" ;
-    spin:constraint [ a spl:Argument ;
-            spl:predicate sml:replace ;
-            spl:valueType xsd:boolean ;
-            rdfs:comment "Replace context flag" ],
-        [ a spl:Argument ;
-            spl:predicate kbss-module:execution-id ;
-            spl:valueType xsd:string ;
-            rdfs:comment "Execution id that will be used to constract quesiont IRIs" ] ;
+    sh:parameter [
+        sh:path sml:replace ;
+        sh:datatype xsd:boolean ;
+        sh:description "Replace context flag" ;
+    ] ;
+    sh:parameter [
+        sh:path kbss-module:execution-id ;
+        sh:datatype xsd:string ;
+        sh:description "Execution id that will be used to construct question IRIs" ;
+    ] ;
     rdfs:comment "Inputs are sample form and Q&A model. Questions from both models are remapped to new IRIs based on question origin combined with executionId." ;
     rdfs:subClassOf kbss-module:generic-kbss-modules .
 
@@ -270,63 +308,74 @@ kbss-module:rdf4j-update a sm:Module ;
 
 kbss-module:sparql-endpoint-download-graph a sm:Module ;
     rdfs:label "SpEP download graph" ;
-    spin:constraint [ a spl:Argument ;
-            spl:optional false ;
-            spl:predicate <http://onto.fel.cvut.cz/ontologies/lib/module/sparql-endpoint-download-graph/endpoint-url> ;
-            rdfs:comment "Endpoint url" ],
-        [ a spl:Argument ;
-            spl:optional true ;
-            spl:predicate <http://onto.fel.cvut.cz/ontologies/lib/module/sparql-endpoint-download-graph/named-graph-id> ;
-            rdfs:comment "Named graph id" ],
-        [ a spl:Argument ;
-            spl:optional true ;
-            spl:predicate <http://onto.fel.cvut.cz/ontologies/lib/module/sparql-endpoint-download-graph/page-size> ;
-            spl:valueType xsd:integer ;
-            rdfs:comment "Page size" ],
-        [ a spl:Argument ;
-            spl:optional true ;
-            spl:predicate <http://onto.fel.cvut.cz/ontologies/lib/module/sparql-endpoint-download-graph/output-resource-variable> ;
-            spl:valueType xsd:integer ;
-            rdfs:comment "Output resource variable" ] ;
-    rdfs:comment "Downloads graph from sparql endpoint specified by 'endpointUrl' and optionaly 'namedGraphId' and saves it in ntriples format into new file whose path is returned through variable defined by outputResourceVariable. If namedGraphId is not specified it downloads the default graph." ;
+    sh:parameter [
+        sh:path <http://onto.fel.cvut.cz/ontologies/lib/module/sparql-endpoint-download-graph/endpoint-url> ;
+        sh:optional false ;
+        sh:description "Endpoint url" ;
+    ] ;
+    sh:parameter [
+        sh:path <http://onto.fel.cvut.cz/ontologies/lib/module/sparql-endpoint-download-graph/named-graph-id> ;
+        sh:optional true ;
+        sh:description "Named graph id" ;
+    ] ;
+    sh:parameter [
+        sh:path <http://onto.fel.cvut.cz/ontologies/lib/module/sparql-endpoint-download-graph/page-size> ;
+        sh:optional true ;
+        sh:datatype xsd:integer ;
+        sh:description "Page size" ;
+    ] ;
+    sh:parameter [
+        sh:path <http://onto.fel.cvut.cz/ontologies/lib/module/sparql-endpoint-download-graph/output-resource-variable> ;
+        sh:optional true ;
+        sh:datatype xsd:integer ;
+        sh:description "Output resource variable" ;
+    ] ;
+    rdfs:comment "Downloads graph from sparql endpoint specified by 'endpointUrl' and optionally 'namedGraphId' and saves it in ntriples format into new file whose path is returned through variable defined by outputResourceVariable. If namedGraphId is not specified it downloads the default graph." ;
     rdfs:subClassOf kbss-module:generic-kbss-modules .
 
 kbss-module:sparql-endpoint-retrieve-graph a sm:Module ;
     rdfs:label "SpEP retrieve graph" ;
-    spin:constraint [ a spl:Argument ;
-            spl:optional false ;
-            spl:predicate <http://onto.fel.cvut.cz/ontologies/lib/module/sparql-endpoint-retrieve-graph/endpoint-url> ;
-            rdfs:comment "Endpoint url" ],
-        [ a spl:Argument ;
-            spl:optional true ;
-            spl:predicate <http://onto.fel.cvut.cz/ontologies/lib/module/sparql-endpoint-retrieve-graph/named-graph-id> ;
-            rdfs:comment "Named graph id" ],
-        [ a spl:Argument ;
-            spl:optional true ;
-            spl:predicate <http://onto.fel.cvut.cz/ontologies/lib/module/sparql-endpoint-retrieve-graph/page-size> ;
-            spl:valueType xsd:integer ;
-            rdfs:comment "Page size" ] ;
-    rdfs:comment "Retrieves graph from sparql endpoint specified by ?endpointUrl and optionaly ?namedGraphId. If ?namedGraphId is not specified it retreaves the default graph." ;
+    sh:parameter [
+        sh:path <http://onto.fel.cvut.cz/ontologies/lib/module/sparql-endpoint-retrieve-graph/endpoint-url> ;
+        sh:optional false ;
+        sh:description "Endpoint url" ;
+    ] ;
+    sh:parameter [
+        sh:path <http://onto.fel.cvut.cz/ontologies/lib/module/sparql-endpoint-retrieve-graph/named-graph-id> ;
+        sh:optional true ;
+        sh:description "Named graph id" ;
+    ] ;
+    sh:parameter [
+        sh:path <http://onto.fel.cvut.cz/ontologies/lib/module/sparql-endpoint-retrieve-graph/page-size> ;
+        sh:optional true ;
+        sh:datatype xsd:integer ;
+        sh:description "Page size" ;
+    ] ;
+    rdfs:comment "Retrieves graph from sparql endpoint specified by ?endpointUrl and optionally ?namedGraphId. If ?namedGraphId is not specified it retrieves the default graph." ;
     rdfs:subClassOf kbss-module:generic-kbss-modules .
 
 kbss-module:tabular a sm:Module ;
     rdfs:label "Tabular" ;
-    spin:constraint [ a spl:Argument ;
-            spl:optional true ;
-            spl:predicate km-tabular:quote-character ;
-            rdfs:comment "Quote" ],
-        [ a spl:Argument ;
-            spl:optional true ;
-            spl:predicate km-tabular:data-prefix ;
-            rdfs:comment "Data prefix" ],
-        [ a spl:Argument ;
-            spl:optional true ;
-            spl:predicate km-tabular:output-mode ;
-            rdfs:comment "Output mode" ],
-        [ a spl:Argument ;
-            spl:optional true ;
-            spl:predicate km-tabular:delimiter ;
-            rdfs:comment "Delimiter" ] ;
+    sh:parameter [
+        sh:path km-tabular:quote-character ;
+        sh:optional true ;
+        sh:description "Quote" ;
+    ] ;
+    sh:parameter [
+        sh:path km-tabular:data-prefix ;
+        sh:optional true ;
+        sh:description "Data prefix" ;
+    ] ;
+    sh:parameter [
+        sh:path km-tabular:output-mode ;
+        sh:optional true ;
+        sh:description "Output mode" ;
+    ] ;
+    sh:parameter [
+        sh:path km-tabular:delimiter ;
+        sh:optional true ;
+        sh:description "Delimiter" ;
+    ] ;
     rdfs:subClassOf kbss-module:generic-kbss-modules .
 
 km-tabular:minimal-mode a km-tabular:Mode ;
@@ -337,17 +386,20 @@ km-tabular:standard-mode a km-tabular:Mode ;
 
 kbss-module:tarql a sm:Module ;
     rdfs:label "TARQL" ;
-    spin:constraint [ a spl:Argument ;
-            spl:optional true ;
-            spl:predicate sml:replace ;
-            rdfs:comment "If set to true, the output triples will only contain the constructed triples. If no values or false are specified, the output will be the union of the input triples and the constructed triples." ],
-        [ a spl:Argument ;
-            spl:predicate sml:sourceFilePath ;
-            rdfs:comment "Source CSV file." ],
-        [ a spl:Attribute ;
-            spl:minCount 1 ;
-            spl:predicate sml:constructQuery ;
-            rdfs:comment "The TARQL Construct queries that deliver the triples that shall be added." ] ;
+    sh:parameter [
+        sh:path sml:replace ;
+        sh:optional true ;
+        sh:description "If set to true, the output triples will only contain the constructed triples. If no values or false are specified, the output will be the union of the input triples and the constructed triples." ;
+    ] ;
+    sh:parameter [
+        sh:path sml:sourceFilePath ;
+        sh:description "Source CSV file." ;
+    ] ;
+    sh:parameter [
+        sh:path sml:constructQuery ;
+        sh:minCount 1 ;
+        sh:description "The TARQL Construct queries that deliver the triples that shall be added." ;
+    ] ;
     rdfs:comment "Runs one or more TARQL Construct queries on the input triples. The output RDF will consist of the constructed triples and (unless sml:replace is true) the input triples." ;
     rdfs:subClassOf kbss-module:generic-kbss-modules .
 
@@ -358,30 +410,36 @@ kbss-module:temporal-v1 a sm:Module ;
 
 kbss-module:text-analysis a sm:Module ;
     rdfs:label "Text analysis" ;
-    spin:constraint [ a spl:Argument ;
-            spl:optional true ;
-            spl:predicate km-text-analysis:service-url ;
-            rdfs:comment "The URL of the text analysis service to be used." ],
-        [ a spl:Argument ;
-            spl:optional true ;
-            spl:predicate km-text-analysis:vocabulary-iri ;
-            rdfs:comment "The IRI of the vocabulary to be used for entity recognition." ],
-        [ a spl:Argument ;
-            spl:optional true ;
-            spl:predicate km-text-analysis:vocabulary-repository ;
-            rdfs:comment "The IRI of the repository where the vocabulary is stored." ],
-        [ a spl:Argument ;
-            spl:optional true ;
-            spl:predicate km-text-analysis:language ;
-            rdfs:comment "The language of the text to be analyzed." ],
-        [ a spl:Argument ;
-            spl:optional true ;
-            spl:predicate km-text-analysis:literals-per-request ;
-            rdfs:comment "The number of literals to be processed per request to the web service." ],
-        [ a spl:Argument ;
-            spl:optional true ;
-            spl:predicate km-text-analysis:selectQuery ;
-            rdfs:comment "The SPARQL query to be used for selecting literals from the repository." ] ;
+    sh:parameter [
+        sh:path km-text-analysis:service-url ;
+        sh:optional true ;
+        sh:description "The URL of the text analysis service to be used." ;
+    ] ;
+    sh:parameter [
+        sh:path km-text-analysis:vocabulary-iri ;
+        sh:optional true ;
+        sh:description "The IRI of the vocabulary to be used for entity recognition." ;
+    ] ;
+    sh:parameter [
+        sh:path km-text-analysis:vocabulary-repository ;
+        sh:optional true ;
+        sh:description "The IRI of the repository where the vocabulary is stored." ;
+    ] ;
+    sh:parameter [
+        sh:path km-text-analysis:language ;
+        sh:optional true ;
+        sh:description "The language of the text to be analyzed." ;
+    ] ;
+    sh:parameter [
+        sh:path km-text-analysis:literals-per-request ;
+        sh:optional true ;
+        sh:description "The number of literals to be processed per request to the web service." ;
+    ] ;
+    sh:parameter [
+        sh:path km-text-analysis:selectQuery ;
+        sh:optional true ;
+        sh:description "The SPARQL query to be used for selecting literals from the repository." ;
+    ] ;
     rdfs:subClassOf kbss-module:generic-kbss-modules .
 
 kbss-module:void a sm:Module ;
@@ -393,21 +451,21 @@ km-param:has-resource-uri a rdf:Property ;
 
 kbss-module:has-debug-mode-flag a rdf:Property ;
     rdfs:label "has debug mode flag" ;
-    rdfs:subPropertyOf spin:query .
+    rdfs:subPropertyOf sh:SPARQLConstraint .
 
 kbss-module:has-input-graph-constraint a rdf:Property ;
     rdfs:label "has input graph constraint" ;
     rdfs:comment "Specifies constraint on merged input graph of the module. The constraint can be specified by ASK query which should return true if constraint is violated. If first line of the query is SPARQL comment, this comment is used to give user human readable description (e.g. within the log of s-pipes execution)." ;
-    rdfs:subPropertyOf spin:query .
+    rdfs:subPropertyOf sh:SPARQLConstraint .
 
 kbss-module:has-output-graph-constraint a rdf:Property ;
     rdfs:label "has output graph constraint" ;
     rdfs:comment "Specifies constraint on returned output graph of the module. The constraint can be specified by ASK query which should return true if constraint is violated. If first line of the query is SPARQL comment, this comment is used to give user human readable description (e.g. within the log of s-pipes execution)." ;
-    rdfs:subPropertyOf spin:query .
+    rdfs:subPropertyOf sh:SPARQLConstraint .
 
 kbss-module:has-target-module-flag a rdf:Property ;
     rdfs:label "has target module flag" ;
-    rdfs:subPropertyOf spin:query .
+    rdfs:subPropertyOf sh:SPARQLConstraint .
 
 km-rdf4j:p-is-replace a rdf:Property ;
     rdfs:label "Is replace" .
@@ -424,34 +482,38 @@ km-rdf4j:p-rdf4j-server-url a rdf:Property ;
 km-tabular:output-mode a rdf:Property ;
     rdfs:range km-tabular:Mode .
 
-sm:Modules spin:constraint [ a spl:Argument ;
-            spl:optional true ;
-            spl:predicate kbss-module:has-debug-mode-flag ;
-            spl:valueType xsd:boolean ;
-            rdfs:comment "Indicates whether this module should be in debug mode."^^xsd:string ],
-        [ a spl:Argument ;
-            spl:optional true ;
-            spl:predicate kbss-module:has-input-graph-constraint ;
-            rdfs:comment "Condition on input graph of this module."^^xsd:string ],
-        [ a spl:Argument ;
-            spl:optional true ;
-            spl:predicate kbss-module:has-output-graph-constraint ;
-            rdfs:comment "Condition on output graph of this module."^^xsd:string ],
-        [ a spl:Argument ;
-            spl:optional true ;
-            spl:predicate kbss-module:has-target-module-flag ;
-            spl:valueType xsd:boolean ;
-            rdfs:comment "Indicates whether this module should be executed as target module in debug environment."^^xsd:string ] .
+sm:Modules
+    sh:parameter [
+        sh:path kbss-module:has-debug-mode-flag ;
+        sh:optional true ;
+        sh:datatype xsd:boolean ;
+        sh:description "Indicates whether this module should be in debug mode." ;
+    ] ;
+    sh:parameter [
+        sh:path kbss-module:has-input-graph-constraint ;
+        sh:optional true ;
+        sh:description "Condition on input graph of this module." ;
+    ] ;
+    sh:parameter [
+        sh:path kbss-module:has-output-graph-constraint ;
+        sh:optional true ;
+        sh:description "Condition on output graph of this module." ;
+    ] ;
+    sh:parameter [
+        sh:path kbss-module:has-target-module-flag ;
+        sh:optional true ;
+        sh:datatype xsd:boolean ;
+        sh:description "Indicates whether this module should be executed as target module in debug environment." ;
+    ] .
 
 kbss-module:has-max-iteration-count a rdf:Property ;
-    rdfs:label "maximum number of iterations"^^xsd:string ;
+    rdfs:label "maximum number of iterations" ;
     rdfs:comment "Specifies what is maximum number of iterations of certain algorithm." ;
     rdfs:range xsd:integer .
 
 kbss-module:is-parse-text a rdf:Property ;
-    rdfs:label "parse text"^^xsd:string ;
+    rdfs:label "parse text" ;
     rdfs:comment "Specifies whether a module shall use some parameter values from its RDF representation or from its textual value." ;
     rdfs:range xsd:boolean .
 
 km-tabular:Mode a sm:ValueType .
-
